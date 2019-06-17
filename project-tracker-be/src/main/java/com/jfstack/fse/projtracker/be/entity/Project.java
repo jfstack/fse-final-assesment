@@ -1,17 +1,11 @@
 package com.jfstack.fse.projtracker.be.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PROJECT_TABLE")
@@ -34,8 +28,71 @@ public class Project {
 	@Column(name = "PRIORITY")
 	private Integer priority;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PROJECT_ID")
-	private Set<Task> tasks;
+	@OneToMany(
+			mappedBy = "project",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	private List<Task> tasks = new ArrayList<>();
 
+	public Project() {
+	}
+
+	public void addTask(Task task) {
+		tasks.add(task);
+		task.setProject(this);
+	}
+
+	public void removeTask(Task task) {
+		tasks.remove(task);
+		task.setProject(null);
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 }
