@@ -23,7 +23,7 @@ public class ProjectForm {
 	
 	private Integer priority;
 	
-	private Long managerId;
+	private Integer managerId;
 
 	public String getName() {
 		return name;
@@ -57,11 +57,11 @@ public class ProjectForm {
 		this.priority = priority;
 	}
 
-	public Long getManagerId() {
+	public Integer getManagerId() {
 		return managerId;
 	}
 
-	public void setManagerId(Long managerId) {
+	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
 	}
 	

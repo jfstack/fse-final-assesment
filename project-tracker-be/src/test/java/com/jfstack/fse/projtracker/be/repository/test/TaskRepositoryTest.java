@@ -3,6 +3,7 @@ package com.jfstack.fse.projtracker.be.repository.test;
 import com.jfstack.fse.projtracker.be.Dummy;
 import com.jfstack.fse.projtracker.be.entity.Project;
 import com.jfstack.fse.projtracker.be.entity.Task;
+import com.jfstack.fse.projtracker.be.entity.User;
 import com.jfstack.fse.projtracker.be.repository.ProjectRepository;
 import com.jfstack.fse.projtracker.be.repository.TaskRepository;
 import org.junit.Test;
@@ -47,8 +48,11 @@ public class TaskRepositoryTest {
 
         Task task = Dummy.createBlankTask();
         Project project = Dummy.createBlankProject();
+        User user = Dummy.createUser();
         project.addTask(task);
         task.setProject(project);
+        task.setOwner(user);
+        user.setTask(task);
 
         project = projectRepository.save(project);
 

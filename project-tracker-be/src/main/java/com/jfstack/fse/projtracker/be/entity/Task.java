@@ -44,6 +44,9 @@ public class Task {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PROJECT_ID")
 	private Project project;
+	
+	@OneToOne(mappedBy = "task", cascade = CascadeType.ALL)
+	private User owner;
 
 	public Task() {
 	}
@@ -111,4 +114,14 @@ public class Task {
 	public void setProject(Project project) {
 		this.project = project;
 	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+	
+	
 }

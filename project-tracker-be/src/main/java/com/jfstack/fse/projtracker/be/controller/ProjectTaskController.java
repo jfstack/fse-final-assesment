@@ -4,6 +4,7 @@ import com.jfstack.fse.projtracker.be.dto.ProjectForm;
 import com.jfstack.fse.projtracker.be.dto.TaskForm;
 import com.jfstack.fse.projtracker.be.entity.Project;
 import com.jfstack.fse.projtracker.be.entity.Task;
+import com.jfstack.fse.projtracker.be.entity.User;
 import com.jfstack.fse.projtracker.be.service.ProjectService;
 import com.jfstack.fse.projtracker.be.service.TaskService;
 import com.jfstack.fse.projtracker.be.service.UserService;
@@ -56,9 +57,18 @@ public class ProjectTaskController {
     	project.setEndDate(projectForm.getEndDate());
     	project.setPriority(projectForm.getPriority());
     	
+    	Optional<User> found = this.userService.getUserByEmployeeId(projectForm.getManagerId());
+    	
+    	if(!found.isPresent()) {
+    		throw new RuntimeException();
+    	}
+    	
+    	User user = found.get();
+    	user.setProject(project);
+    	
+    	project.setManager(user);
     	project = this.projectService.addProject(project);
     	
-    	//update managerid with projectid
     	
     	HttpHeaders headers = new HttpHeaders();
     	

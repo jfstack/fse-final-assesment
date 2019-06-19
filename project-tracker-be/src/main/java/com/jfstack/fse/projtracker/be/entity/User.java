@@ -1,10 +1,13 @@
 package com.jfstack.fse.projtracker.be.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,11 +27,15 @@ public class User {
 	@Column(name = "EMP_ID")
 	private Integer employeeId;
 	
-	@Column(name = "PROJECT_ID")
-	private Long projectId;
+//	@Column(name = "PROJECT_ID")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")
+	private Project project;
 	
-	@Column(name = "TASK_ID")
-	private Long taskId;
+//	@Column(name = "TASK_ID")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TASK_ID", referencedColumnName = "TASK_ID")
+	private Task task;
 
 	public User() {
 	}
@@ -65,19 +72,19 @@ public class User {
 		this.employeeId = employeeId;
 	}
 
-	public Long getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
-	public Long getTaskId() {
-		return taskId;
+	public Task getTask() {
+		return task;
 	}
 
-	public void setTaskId(Long taskId) {
-		this.taskId = taskId;
+	public void setTask(Task task) {
+		this.task = task;
 	}
 }

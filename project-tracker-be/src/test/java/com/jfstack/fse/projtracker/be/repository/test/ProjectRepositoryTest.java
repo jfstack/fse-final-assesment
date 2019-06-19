@@ -3,6 +3,7 @@ package com.jfstack.fse.projtracker.be.repository.test;
 import com.jfstack.fse.projtracker.be.Dummy;
 import com.jfstack.fse.projtracker.be.entity.Project;
 import com.jfstack.fse.projtracker.be.entity.Task;
+import com.jfstack.fse.projtracker.be.entity.User;
 import com.jfstack.fse.projtracker.be.repository.ProjectRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -41,6 +42,9 @@ public class ProjectRepositoryTest {
     public void testSaveProjectWithTask() {
         Project project = Dummy.createBlankProject();
         Task task = Dummy.createBlankTask();
+        User user = Dummy.createUser();
+        user.setProject(project);
+        project.setManager(user);
         project.addTask(task);
         task.setProject(project);
 

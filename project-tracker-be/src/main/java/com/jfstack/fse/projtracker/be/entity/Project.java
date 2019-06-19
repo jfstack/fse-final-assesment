@@ -43,6 +43,9 @@ public class Project {
 			orphanRemoval = true
 	)
 	private List<Task> tasks = new ArrayList<>();
+	
+	@OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
+	private User manager;
 
 	public Project() {
 	}
@@ -104,4 +107,14 @@ public class Project {
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
+
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+	
+	
 }
