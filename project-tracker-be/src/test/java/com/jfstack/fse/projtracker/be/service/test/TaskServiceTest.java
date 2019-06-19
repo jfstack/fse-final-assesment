@@ -141,7 +141,7 @@ public class TaskServiceTest {
 	}
 	
 	@Test
-	public void whenDeleteTaskWithValidId_thenUserShouldBeDeleted() {
+	public void whenDeleteTaskWithValidId_thenTaskShouldBeDeleted() {
 		
 		taskService.deleteTask(101L);
 		

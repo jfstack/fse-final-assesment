@@ -23,8 +23,7 @@ import com.jfstack.fse.projtracker.be.repository.UserRepository;
 import com.jfstack.fse.projtracker.be.service.UserService;
 import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 
-@RunWith(SpringRunner.class)
-public class UserServiceTest {
+@RunWith(SpringRunner.class)public class UserServiceTest {
 	
 	@TestConfiguration
 	static class UserServiceTestConfig {

@@ -22,6 +22,22 @@ public class Dummy {
         return project;
     }
 
+    public static List<Project> createProjectList() {
+        Project project1 = new Project();
+        project1.setProject("project 1");
+        project1.setPriority(1);
+        project1.setStartDate(LocalDate.now());
+        project1.setEndDate(LocalDate.now().plusDays(1));
+
+        Project project2 = new Project();
+        project2.setProject("project 1");
+        project2.setPriority(1);
+        project2.setStartDate(LocalDate.now());
+        project2.setEndDate(LocalDate.now().plusDays(1));
+
+        return Arrays.asList(project2, project2);
+    }
+
     public static Task createBlankTask() {
         Task task = new Task();
         task.setTask("task 1 for project 1");
@@ -55,6 +71,15 @@ public class Dummy {
         ParentTask parentTask = new ParentTask();
         parentTask.setParentTask("parent task 1");
         return parentTask;
+    }
+    public static List<ParentTask> createParentTaskList() {
+
+        ParentTask parentTask1 = new ParentTask();
+        parentTask1.setParentTask("parent task1");
+
+        ParentTask parentTask2 = new ParentTask();
+        parentTask2.setParentTask("parent task2");
+        return Arrays.asList(parentTask1, parentTask2);
     }
 
     public static User createUser() {
