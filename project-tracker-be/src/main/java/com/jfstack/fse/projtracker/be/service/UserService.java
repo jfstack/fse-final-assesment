@@ -4,17 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import com.jfstack.fse.projtracker.be.dto.UserDto;
+import com.jfstack.fse.projtracker.be.entity.User;
 
 public interface UserService {
 
-	Optional<UserDto> getUserByEmployeeId(Integer empId);
+	Optional<User> getUserByEmployeeId(Integer empId);
 	
-	Optional<List<UserDto>> getAllUsers();
+	Optional<List<User>> getAllUsers();
 	
-	void addUser(UserDto userDto);
+	void addUser(User user);
 	
 	void deleteUser(Long userId);
 	
-	void updateUser(UserDto userDto);
+	void updateUser(User user);
 
 }

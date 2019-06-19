@@ -53,11 +53,11 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	@Test
 	public void whenValidEmpId_thenUserShouldBeFound() {
 		
-		Optional<UserDto> actual = userService.getUserByEmployeeId(208066);
+		Optional<User> actual = userService.getUserByEmployeeId(208066);
 		
 		assertThat(actual).isNotEmpty();
 		assertThat(actual.isPresent()).isTrue();
-		assertThat(actual.get()).isInstanceOf(UserDto.class);
+		assertThat(actual.get()).isInstanceOf(User.class);
 		assertThat(actual.get().getFirstName()).isEqualTo("Chandan");
 		
 	}
@@ -65,7 +65,7 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	@Test
 	public void whenGetAllUsers_thenAllUsersShouldBeFound() {
 		
-		Optional<List<UserDto>> actual = userService.getAllUsers();
+		Optional<List<User>> actual = userService.getAllUsers();
 		
 		assertThat(actual).isNotEmpty();
 		assertThat(actual.isPresent()).isTrue();
@@ -78,9 +78,9 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	public void whenAddNewUser_thenUserShouldBeSaved() {
 		
 		User entity = Dummy.createUser();
-		UserDto dto = Dummy.wrapUserInDto(entity);
+//		UserDto dto = Dummy.wrapUserInDto(entity);
 		
-		userService.addUser(dto);
+		userService.addUser(entity);
 		
 		ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
 	    verify( userRepository ).save( argument.capture() );
@@ -106,8 +106,8 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	@Test(expected = IllegalArgumentException.class)
 	public void whenUpdateUserWithNullId_thenException() {
 		
-		UserDto dto = Dummy.wrapUserInDto(Dummy.createUser());
-		userService.updateUser(dto);
+		User user = Dummy.createUser();
+		userService.updateUser(user);
 		
 	}
 	
@@ -115,18 +115,18 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	public void whenUpdateExistingUser_thenUserShouldBeSaved() {
 		
 		User entity = Dummy.createUser();
-		UserDto dto = Dummy.wrapUserInDto(entity);
-		dto.setUserId(100L);
-		dto.setFirstName("Saheb");
-		dto.setLastName("Dhole");
+//		UserDto dto = Dummy.wrapUserInDto(entity);
+		entity.setUserId(100L);
+		entity.setFirstName("Saheb");
+		entity.setLastName("Dhole");
 		
-		userService.updateUser(dto);
+		userService.updateUser(entity);
 		
 		ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
 	    verify( userRepository ).save( argument.capture() );
-	    assertThat( argument.getValue().getEmployeeId() ).isEqualTo( dto.getEmployeeId() );
-	    assertThat( argument.getValue().getFirstName() ).isEqualTo( dto.getFirstName() );
-	    assertThat( argument.getValue().getLastName() ).isEqualTo( dto.getLastName() );
+	    assertThat( argument.getValue().getEmployeeId() ).isEqualTo( entity.getEmployeeId() );
+	    assertThat( argument.getValue().getFirstName() ).isEqualTo( entity.getFirstName() );
+	    assertThat( argument.getValue().getLastName() ).isEqualTo( entity.getLastName() );
 		
 	}
 	

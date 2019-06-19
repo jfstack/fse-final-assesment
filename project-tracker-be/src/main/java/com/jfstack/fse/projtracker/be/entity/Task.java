@@ -4,6 +4,11 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jfstack.fse.projtracker.be.controller.LocalDateDeSerializer;
+import com.jfstack.fse.projtracker.be.controller.LocalDateSerializer;
+
 @Entity
 @Table(name = "TASK_TABLE")
 public class Task {
@@ -16,9 +21,13 @@ public class Task {
 	private String task;
 	
 	@Column(name = "START_DATE")
+	@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeSerializer.class)
 	private LocalDate startDate;
 	
 	@Column(name = "END_DATE")
+	@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeSerializer.class)
 	private LocalDate endDate;
 	
 	@Column(name = "PRIORITY")

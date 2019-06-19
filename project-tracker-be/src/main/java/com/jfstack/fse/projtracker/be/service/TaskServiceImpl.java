@@ -90,4 +90,9 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
+	@Override
+	public Optional<List<Task>> getAllTasksByProject(Long projectId) {
+		return repository.findAllByProject_ProjectId(projectId);
+	}
+
 }

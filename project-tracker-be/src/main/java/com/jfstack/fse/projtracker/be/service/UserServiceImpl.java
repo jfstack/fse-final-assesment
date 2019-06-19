@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<UserDto> getUserByEmployeeId(Integer empId) {
+	public Optional<User> getUserByEmployeeId(Integer empId) {
 		
 		if(empId == null) {
 			return Optional.empty();
@@ -32,24 +32,24 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> user = repository.findByEmployeeId(empId);
 		
-		return toDtoOptional(user);
+		return user;
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<List<UserDto>> getAllUsers() {
+	public Optional<List<User>> getAllUsers() {
 		List<User> allusers = repository.findAll();
-		List<UserDto> list = allusers.stream().map(this::toDto).collect(Collectors.toList());
-		return Optional.ofNullable(list);
+//		List<UserDto> list = allusers.stream().map(this::toDto).collect(Collectors.toList());
+		return Optional.ofNullable(allusers);
 	}
 	
 	@Override
 	@Transactional
-	public void addUser(UserDto userDto) {
-		if(userDto == null)
+	public void addUser(User user) {
+		if(user == null)
 			throw new IllegalArgumentException("user data is null");
 		
-		User user = fromDto(userDto);
+//		User user = fromDto(userDto);
 		
 		repository.save(user);
 	}
@@ -65,29 +65,29 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public void updateUser(UserDto userDto) {
-		if(userDto == null)
+	public void updateUser(User user) {
+		if(user == null)
 			throw new IllegalArgumentException("user data is null");
 		
-		if(userDto.getUserId() == null)
+		if(user.getUserId() == null)
 			throw new IllegalArgumentException("user id is null");
 		
-		Optional<User> found = repository.findById(userDto.getUserId());
+		Optional<User> found = repository.findById(user.getUserId());
 		
 		if(found.isPresent()) {
 			User userToUpdate = found.get();
-			userToUpdate.setFirstName(userDto.getFirstName());
-			userToUpdate.setLastName(userDto.getLastName());
+			userToUpdate.setFirstName(user.getFirstName());
+			userToUpdate.setLastName(user.getLastName());
 //			user.setEmployeeId(dto.getEmployeeId());
-			userToUpdate.setProjectId(userDto.getProjectId());
-			userToUpdate.setTaskId(userDto.getTaskId());
+			userToUpdate.setProjectId(user.getProjectId());
+			userToUpdate.setTaskId(user.getTaskId());
 			
 			repository.save(userToUpdate);
 		}
 		
 	}
 	
-	
+	/*
 	private Optional<UserDto> toDtoOptional(Optional<User> user) {
 		if(user.isPresent()) {
 			return Optional.of(toDto(user.get()));
@@ -117,6 +117,6 @@ public class UserServiceImpl implements UserService {
 		user.setTaskId(dto.getTaskId());
 		return user;
 	}
-
+	*/
 
 }

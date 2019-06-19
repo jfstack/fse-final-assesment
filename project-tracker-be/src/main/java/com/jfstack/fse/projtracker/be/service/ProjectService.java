@@ -14,7 +14,7 @@ public interface ProjectService {
 
     Optional<List<Project>> getAllProjects();
 
-    void addProject(Project project);
+    Project addProject(Project project);
 
     void deleteProject(Long projectId);
 

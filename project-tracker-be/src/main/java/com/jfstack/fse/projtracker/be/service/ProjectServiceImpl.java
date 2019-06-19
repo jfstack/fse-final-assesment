@@ -51,12 +51,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public void addProject(Project project) {
+    public Project addProject(Project project) {
         if(project == null) {
             throw new IllegalArgumentException("project data is null");
         }
 
-        repository.save(project);
+        return repository.save(project);
     }
 
     @Override
