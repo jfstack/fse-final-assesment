@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jfstack.fse.projtracker.be.controller.LocalDateDeSerializer;
@@ -41,8 +42,9 @@ public class Task {
 	private ParentTask parentTask;
 
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne//(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PROJECT_ID")
+	@JsonIgnore
 	private Project project;
 	
 	@OneToOne(mappedBy = "task", cascade = CascadeType.ALL)

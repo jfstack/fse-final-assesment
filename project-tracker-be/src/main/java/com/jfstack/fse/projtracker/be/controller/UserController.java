@@ -44,7 +44,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @PutMapping(name = "/{userId}",
+    @PutMapping(value = "/{userId}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateUser(
@@ -81,7 +81,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        this.userService.deleteUser(userId.longValue());
+        this.userService.deleteUser(found.get().getUserId());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -1,5 +1,6 @@
 package com.jfstack.fse.projtracker.be;
 
+import com.jfstack.fse.projtracker.be.dto.ProjectForm;
 import com.jfstack.fse.projtracker.be.dto.UserDto;
 import com.jfstack.fse.projtracker.be.entity.ParentTask;
 import com.jfstack.fse.projtracker.be.entity.Project;
@@ -30,12 +31,12 @@ public class Dummy {
         project1.setEndDate(LocalDate.now().plusDays(1));
 
         Project project2 = new Project();
-        project2.setProject("project 1");
+        project2.setProject("project 2");
         project2.setPriority(1);
         project2.setStartDate(LocalDate.now());
         project2.setEndDate(LocalDate.now().plusDays(1));
 
-        return Arrays.asList(project2, project2);
+        return Arrays.asList(project1, project2);
     }
 
     public static Task createBlankTask() {
@@ -112,5 +113,18 @@ public class Dummy {
         joy.setLastName("Burman");
 
         return Arrays.asList(chandan, joy);
+    }
+    
+    public static ProjectForm createProjectForm() {
+    	
+    	ProjectForm pform = new ProjectForm();
+    	pform.setName("projectA");
+    	pform.setStartDate(LocalDate.now());
+    	pform.setEndDate(LocalDate.now().plusDays(2));
+    	pform.setPriority(2);
+    	pform.setManagerId(208066);
+    	
+    	return pform;
+    	
     }
 }

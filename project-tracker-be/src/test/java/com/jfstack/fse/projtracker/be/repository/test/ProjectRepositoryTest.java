@@ -27,9 +27,10 @@ public class ProjectRepositoryTest {
     @Test
     public void testSaveProject() {
         Project project = Dummy.createBlankProject();
+        project.setProject("projectA");
 
         repository.save(project);
-        Optional<Project> actual = repository.findByProject("project 1");
+        Optional<Project> actual = repository.findByProject("projectA");
 
         assertThat(actual).isNotEmpty();
         assertThat(actual.isPresent()).isTrue();
@@ -41,6 +42,7 @@ public class ProjectRepositoryTest {
     @Test
     public void testSaveProjectWithTask() {
         Project project = Dummy.createBlankProject();
+        project.setProject("projectB");
         Task task = Dummy.createBlankTask();
         User user = Dummy.createUser();
         user.setProject(project);
@@ -49,7 +51,7 @@ public class ProjectRepositoryTest {
         task.setProject(project);
 
         repository.save(project);
-        Optional<Project> actual = repository.findByProject("project 1");
+        Optional<Project> actual = repository.findByProject("projectB");
 
         assertThat(actual).isNotEmpty();
         assertThat(actual.isPresent()).isTrue();

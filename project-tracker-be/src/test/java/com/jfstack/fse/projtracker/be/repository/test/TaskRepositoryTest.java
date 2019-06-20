@@ -44,7 +44,7 @@ public class TaskRepositoryTest {
     }
     
     @Test
-    public void testFindTaskByProject() {
+    public void testFindAllTasksByProject() {
 
         Task task = Dummy.createBlankTask();
         Project project = Dummy.createBlankProject();

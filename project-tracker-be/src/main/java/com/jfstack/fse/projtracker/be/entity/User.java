@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "USER_TABLE")
 public class User {
@@ -35,6 +37,7 @@ public class User {
 //	@Column(name = "TASK_ID")
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TASK_ID", referencedColumnName = "TASK_ID")
+	@JsonIgnore
 	private Task task;
 
 	public User() {

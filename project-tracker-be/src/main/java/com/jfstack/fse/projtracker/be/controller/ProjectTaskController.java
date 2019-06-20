@@ -46,6 +46,17 @@ public class ProjectTaskController {
 		this.userService = userService;
 	}
     
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Project>> getAllProjects() {
+    	
+    	Optional<List<Project>> allProjects = this.projectService.getAllProjects();
+    	
+    	if(!allProjects.isPresent()) {
+    		return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
+    	}
+    	
+    	return new ResponseEntity<>(allProjects.get(), HttpStatus.OK);
+    }
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addProject(
@@ -76,9 +87,8 @@ public class ProjectTaskController {
     }
     
 
-	@GetMapping(name = "/{projectId}/tasks", 
-			consumes = {MediaType.APPLICATION_JSON_VALUE},
-			produces = {MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping(value = "/{projectId}/tasks",
+			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Task>> getAllTasks(@PathVariable("projectId") Long projectId) {
     	
     	Optional<List<Task>> allTasks = taskService.getAllTasksByProject(projectId);
@@ -93,8 +103,28 @@ public class ProjectTaskController {
     	return new ResponseEntity<>(allTasks.get(), headers, HttpStatus.OK);
     	
     }
+	
+
+	@GetMapping(value = "/{projectId}/tasks/{taskId}",
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Task> getTaskById(
+    		@PathVariable("projectId") Long projectId,
+    		@PathVariable("taskId") Long taskId ) {
+    	
+    	Optional<Task> found = taskService.getTaskById(taskId);
+    	
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+    	
+    	if(!found.isPresent()) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+    	
+    	return new ResponseEntity<>(found.get(), headers, HttpStatus.OK);
+    	
+    }
     
-    @PostMapping(name = "/{projectId}/tasks",
+    @PostMapping(value = "/{projectId}/tasks",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addTask(
@@ -109,13 +139,24 @@ public class ProjectTaskController {
     	
     	Project project = found.get();
     	
+    	User owner = null;
+    	if(taskForm.getUserId() != null) {
+	    	Optional<User> userFound = this.userService.getUserByEmployeeId(taskForm.getUserId());
+	    	if(!userFound.isPresent()) {
+	    		throw new RuntimeException();
+	    	}
+	    	owner = userFound.get();
+    	}
+    	
     	Task task = new Task();
     	task.setTask(taskForm.getName());
     	task.setStartDate(taskForm.getStartDate());
     	task.setEndDate(taskForm.getEndDate());
     	task.setPriority(taskForm.getPriority());
     	task.setStatus("OPEN");
+    	task.setOwner(owner);
     	
+    	owner.setTask(task);
     	project.addTask(task);
     	task.setProject(project);
     	
@@ -134,7 +175,7 @@ public class ProjectTaskController {
     
 
     @PutMapping(
-    		name = "/{projectId}/tasks/{taskId}",
+    		value = "/{projectId}/tasks/{taskId}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -150,14 +191,19 @@ public class ProjectTaskController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     	
-//    	task.setProject(found.get().getProject());
-//    	taskService.updateTask(task);
+    	Task task = found.get();
+    	task.setTask(taskForm.getName());
+    	task.setStartDate(taskForm.getStartDate());
+    	task.setEndDate(taskForm.getEndDate());
+    	task.setPriority(taskForm.getPriority());
+    	
+    	taskService.updateTask(task);
     	
     	return new ResponseEntity<>(HttpStatus.OK); 
     	
     }
 
-    @DeleteMapping(name = "/{projectId}/tasks/{taskId}")
+    @DeleteMapping(value = "/{projectId}/tasks/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable("taskId") Long taskId) {
     	
     	Optional<Task> found = taskService.getTaskById(taskId);
