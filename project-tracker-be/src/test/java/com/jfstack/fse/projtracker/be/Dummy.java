@@ -1,15 +1,16 @@
 package com.jfstack.fse.projtracker.be;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 import com.jfstack.fse.projtracker.be.dto.ProjectForm;
 import com.jfstack.fse.projtracker.be.dto.UserDto;
+import com.jfstack.fse.projtracker.be.dto.UserForm;
 import com.jfstack.fse.projtracker.be.entity.ParentTask;
 import com.jfstack.fse.projtracker.be.entity.Project;
 import com.jfstack.fse.projtracker.be.entity.Task;
 import com.jfstack.fse.projtracker.be.entity.User;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 
 public class Dummy {
 
@@ -125,6 +126,17 @@ public class Dummy {
     	pform.setManagerId(208066);
     	
     	return pform;
+    	
+    }
+    
+    public static UserForm createUserForm() {
+    	
+		UserForm uform = new UserForm();
+    	uform.setEmployeeId(208066);
+    	uform.setFirstName("Chandan");
+    	uform.setLastName("Ghosh");
+    	
+    	return uform;
     	
     }
 }
