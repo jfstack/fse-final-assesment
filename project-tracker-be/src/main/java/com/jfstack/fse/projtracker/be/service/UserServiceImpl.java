@@ -45,13 +45,13 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public void addUser(User user) {
+	public User addUser(User user) {
 		if(user == null)
 			throw new IllegalArgumentException("user data is null");
 		
 //		User user = fromDto(userDto);
 		
-		repository.save(user);
+		return repository.save(user);
 	}
 	
 	@Override
