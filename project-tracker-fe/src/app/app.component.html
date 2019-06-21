@@ -1,0 +1,41 @@
+<header>
+  <nav class="navbar navbar-inverse" style="border-radius: 0px;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" routerLink="welcome">{{ title }}</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Menu Bar-->
+  <div class="container">
+    <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <ul class="nav nav-pills">
+                <li><a class="nav-link" routerLinkActive="active" [routerLink]="['/project']"><i class="fa fa-home fa-fw"></i>Add Project</a></li>
+                <li><a class="nav-link" routerLinkActive="active" [routerLink]="['/user']"><i class="fa fa-list-alt fa-fw"></i>Add User</a></li>
+                <li><a class="nav-link" routerLinkActive="active" [routerLink]="['/task']"><i class="fa fa-file-o fa-fw"></i>Add Task</a></li>
+                <li><a class="nav-link" routerLinkActive="active" [routerLink]="['/viewtask']"><i class="fa fa-bar-chart-o fa-fw"></i>View Task</a></li>
+            </ul>
+    </div>
+</div>
+<!-- Menu Bar-->
+
+<!-- Routing outlet container-->
+<div class="container" style="margin-top: 15px;">
+  <router-outlet></router-outlet>
+</div>
+<!-- Routing outlet container-->
+
+</main>
+
+<!-- Footer -->
+<footer class="page-footer font-small">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center">© 2019 Copyright:
+    <a href="#"> Cognizant.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->

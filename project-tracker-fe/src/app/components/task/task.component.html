@@ -1,0 +1,137 @@
+
+  <div class="panel panel-info" style="margin-left: 0px;">
+      <div class="panel-heading">
+          <h3 class="panel-title">Add/Edit</h3>
+        </div>
+        <div class="panel-body">
+          
+          <form class="form-horizontal">
+
+              <div class="form-group">
+                <label for="inputProjectName" class="col-sm-2 control-label">Project</label>
+                <div class="col-sm-8">
+                  <input type="text" 
+                        class="form-control" 
+                        id="inputProjectName" 
+                        placeholder="Project Name (Required)"
+                        required
+                        minlength="5"
+                        maxlength="50"
+                        name="project"
+                        >
+                </div>
+                <button type="button" class="btn btn-info">Search</button>
+              </div>
+
+              <div class="form-group">
+                <label for="inputTaskName" class="col-sm-2 control-label">Task</label>
+                <div class="col-sm-8">
+                  <input type="text" 
+                        class="form-control" 
+                        id="inputTaskName" 
+                        placeholder="Task Name (Required)"
+                        required
+                        minlength="5"
+                        maxlength="50"
+                        name="task"
+                        >
+                </div>
+              </div>
+
+              <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox"> Parent Task
+                      </label>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputPriority" class="col-sm-2 control-label">Priority</label>
+                <div class="col-sm-8">
+                  <input type="range" 
+                        class="form-control" 
+                        id="inputPriority" 
+                        required
+                        min="5"
+                        max="30"
+                        value="0"
+                        name="priority"
+                        >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputParentTask" class="col-sm-2 control-label">Parent Task</label>
+                <div class="col-sm-8">
+                  <input type="text" 
+                        class="form-control" 
+                        id="inputParentTask" 
+                        placeholder="Parent Task (Required)"
+                        required
+                        minlength="5"
+                        maxlength="50"
+                        name="parentTask"
+                        >
+                </div>
+                <button type="button" class="btn btn-info">Search</button>
+              </div>
+
+              <div class="form-group">
+                  <label for="inputStartDate" class="col-sm-2 control-label">Start Date</label>
+                  <div class="col-sm-2">
+                      <input type="date" 
+                            class="form-control" 
+                            id="inputStartDate" 
+                            required
+                            name="startDate"
+                            >
+                  </div>
+                  <label for="inputEndDate" class="col-sm-2 control-label">End Date</label>
+                  <div class="col-sm-2">
+                      <input type="date" 
+                            class="form-control" 
+                            id="inputEndDate" 
+                            required
+                            name="endDate"
+                            >
+                  </div>
+                </div>
+                
+              <div class="form-group">
+                  <label for="inputUser" class="col-sm-2 control-label">User</label>
+                  <div class="col-sm-8">
+                    <input type="text" 
+                          class="form-control" 
+                          id="inputUser" 
+                          placeholder="User (Required)"
+                          required
+                          minlength="5"
+                          maxlength="50"
+                          name="empId"
+                          >
+                  </div>
+                  <button type="button" class="btn btn-info">Search</button>
+                </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+
+                  <button class="btn btn-primary"
+                    type="submit"
+                    style="width:80px;margin-right:10px"
+                    >Add</button>
+
+                  <button class="btn btn-outline-secondary"
+                    type="button"
+                    style="width:80px"
+                    >Reset</button>
+
+                </div>
+              </div>
+
+            </form>
+        </div>
+  </div>
