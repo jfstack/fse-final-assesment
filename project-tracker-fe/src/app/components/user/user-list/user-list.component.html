@@ -13,7 +13,6 @@
   </div>
 </div>
 <div style="margin-top: 10px;">
-    <user-card></user-card>
-    <user-card></user-card>
+    <user-card *ngFor="let user of users" [user]="user"></user-card>
 </div>
  

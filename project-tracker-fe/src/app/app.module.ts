@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
@@ -17,6 +19,7 @@ import { ProjectAddComponent } from './components/project/project-add/project-ad
 import { ProjectListComponent } from './components/project/project-list/project-list.component';
 import { ProjectCardComponent } from './components/project/project-list/project-card/project-card.component';
 import { TaskCardComponent } from './components/view-task/task-card/task-card.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +37,14 @@ import { TaskCardComponent } from './components/view-task/task-card/task-card.co
     ProjectAddComponent,
     ProjectListComponent,
     ProjectCardComponent,
-    TaskCardComponent
+    TaskCardComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],

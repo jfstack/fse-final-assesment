@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'user-list',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
+  users: Array<User>;
+
+  constructor(private userService: UserService) { 
+    this.users = [];
+  }
 
   ngOnInit() {
+    this.userService.getUsers()
+      .subscribe(
+        data =>{
+          this.users = data;
+        },
+
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+        }
+      );
+
+      this.userService.userListSubjectCast.subscribe(
+        user => {
+          this.users.push(user);
+        }
+      );
   }
 
 }
