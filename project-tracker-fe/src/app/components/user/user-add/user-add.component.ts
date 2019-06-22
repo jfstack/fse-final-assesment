@@ -42,9 +42,10 @@ export class UserAddComponent implements OnInit, OnDestroy {
         this.userService.createUser(this.form.value)
         .subscribe(
           data => {
-            console.log("Data:" + data);
-            this.newUser = data;
+            console.log("Data saved successfully:" + data);
+            // this.newUser = data; //not required
             this.userService.cast(this.newUser);
+            this.form.reset(new User(0, '', '', 0));
           },
 
           (error: HttpErrorResponse) => {console.log(error.name + ' ' + error.message);}

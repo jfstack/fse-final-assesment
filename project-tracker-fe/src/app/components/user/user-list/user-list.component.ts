@@ -17,22 +17,34 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe(
-        data =>{
-          this.users = data;
-        },
+    
+    this.userService.refreshEvent.subscribe(
+      () => {
+        this.refreshUserList();
+      }
+    );
 
-        (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
-        }
-      );
+    //during initial bootstrap
+    this.refreshUserList();
 
       this.userService.userListSubjectCast.subscribe(
         user => {
           this.users.push(user);
         }
       );
+  }
+
+  refreshUserList() {
+    this.userService.getUsers()
+    .subscribe(
+      data =>{
+        this.users = data;
+      },
+
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message);
+      }
+    );
   }
 
 }
