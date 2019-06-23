@@ -20,22 +20,20 @@ export class UserCardComponent implements OnInit {
 
   editUser(user: User) {
     console.log('OnEdit:' + user);
+    this.userService.castLoadOnEditSubject(user);
   }
 
   
   deleteUser(user: User) {
     console.log('OnDelete:' + user);
     this.userService.deleteUser(user.employeeId)
-      .subscribe(data => {console.log(data)},
-      (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
-      } );
-      /*.pipe(
-        tap( () => {
-          this.userService.refreshEvent.next();
-        }
-
-        )
-      );*/
+      .subscribe(() => {
+          console.log(`User with Id ${user.employeeId} is deleted...`)
+          this.userService.castRefreshEvent();
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error.name + ' ' + error.message);
+          } 
+        );
   }
 }

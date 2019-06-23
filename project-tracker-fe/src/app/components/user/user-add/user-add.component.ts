@@ -19,14 +19,29 @@ export class UserAddComponent implements OnInit, OnDestroy {
   });
 
   submitted = false;
+  enableUpdateButton = false;
   submitMessage: string;
   newUser: User;
 
   private userSubscription: Subscription;
+  private loadOnEditSubjectSubscription: Subscription;
+  private updateUserSubscription: Subscription;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.loadOnEditSubjectSubscription = 
+      this.userService.loadOnEditSubjectCast.subscribe(
+        data => {
+          this.form.setValue({
+            firstName: data.firstName, 
+            lastName: data.lastName, 
+            employeeId: data.employeeId
+          });
+
+          this.enableUpdateButton = true;
+        }
+      );
   }
 
   addUser() {
@@ -38,19 +53,46 @@ export class UserAddComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
 
-    this.userSubscription = 
-        this.userService.createUser(this.form.value)
-        .subscribe(
-          data => {
-            console.log("Data saved successfully:" + data);
-            // this.newUser = data; //not required
-            this.userService.cast(this.newUser);
-            this.form.reset(new User(0, '', '', 0));
-          },
+    if(this.enableUpdateButton) {
 
-          (error: HttpErrorResponse) => {console.log(error.name + ' ' + error.message);}
-        );
+      this.enableUpdateButton = false;
 
+      this.updateUserSubscription = 
+          this.userService.updateUser(this.form.value)
+              .subscribe(
+                data => {
+                  console.log("Data updated successfully:" + data);
+                  this.userService.castRefreshEvent();
+                  this.resetForm();
+                },
+
+                (error: HttpErrorResponse) => {
+                  console.log(error.name + ' ' + error.message);
+                }
+
+              );
+
+    } else {
+    
+      this.userSubscription = 
+          this.userService.createUser(this.form.value)
+          .subscribe(
+            data => {
+              console.log("Data saved successfully:" + data);
+              this.newUser = data; //not required
+              this.userService.cast(this.newUser);
+              this.resetForm();
+            },
+
+            (error: HttpErrorResponse) => {console.log(error.name + ' ' + error.message);}
+          );
+
+      }
+
+  }
+
+  resetForm() {
+    this.form.reset(new User(0, '', '', 0));
   }
 
   ngOnDestroy() {
