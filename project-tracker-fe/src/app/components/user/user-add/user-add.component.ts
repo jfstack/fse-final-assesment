@@ -42,6 +42,9 @@ export class UserAddComponent implements OnInit, OnDestroy {
           this.enableUpdateButton = true;
         }
       );
+      
+      //on initial component load
+      this.enableUpdateButton = false;
   }
 
   addUser() {

@@ -20,6 +20,7 @@ import { ProjectListComponent } from './components/project/project-list/project-
 import { ProjectCardComponent } from './components/project/project-list/project-card/project-card.component';
 import { TaskCardComponent } from './components/view-task/task-card/task-card.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { FilterUserPipe } from './pipes/filter-user.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ModalComponent } from './components/modal/modal.component';
     ProjectListComponent,
     ProjectCardComponent,
     TaskCardComponent,
-    ModalComponent
+    ModalComponent,
+    FilterUserPipe
   ],
   imports: [
     BrowserModule,

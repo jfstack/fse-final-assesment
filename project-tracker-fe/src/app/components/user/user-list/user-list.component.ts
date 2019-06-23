@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UserListComponent implements OnInit {
 
   users: Array<User>;
+  searchTerm: string;
 
   constructor(private userService: UserService) { 
     this.users = [];
