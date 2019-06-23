@@ -65,10 +65,28 @@ export class UserListComponent implements OnInit {
 
       if(sortKey === 'lname') {
         console.log("Sorting users using last name...");
+
+        if(this.users) {
+          this.users.sort(
+            (user1, user2) => {
+              return (user1.lastName < user2.lastName) ? -1 : (user1.lastName > user2.lastName) ? 1 : 0;
+            }
+          );
+        }
+
       }
 
       if(sortKey === 'empid') {
         console.log("Sorting users using employee id...");
+
+        if(this.users) {
+          this.users.sort(
+            (user1, user2) => {
+              return (user1.employeeId < user2.employeeId) ? -1 : (user1.employeeId > user2.employeeId) ? 1 : 0;
+            }
+          );
+        }
+
       }
 
     }
