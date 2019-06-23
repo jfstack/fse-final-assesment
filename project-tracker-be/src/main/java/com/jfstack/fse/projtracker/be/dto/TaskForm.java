@@ -13,6 +13,8 @@ public class TaskForm {
 	
 	private String name;
 	
+	private String parentType;
+	
 	private Integer priority;
 	
 	private Long parentTaskId;
@@ -83,7 +85,18 @@ public class TaskForm {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
+	public Boolean isParent() {
+		return ("yes".equalsIgnoreCase(parentType)) ? true : false;
+	}
+
+	public void setParentType(String parentType) {
+		this.parentType = parentType;
+	}
 	
+	public String getParentType() {
+		return this.parentType;
+	}
 	
 
 }

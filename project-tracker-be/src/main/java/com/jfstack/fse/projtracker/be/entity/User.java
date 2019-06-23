@@ -32,6 +32,7 @@ public class User {
 //	@Column(name = "PROJECT_ID")
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROJECT_ID", referencedColumnName = "PROJECT_ID")
+	@JsonIgnore
 	private Project project;
 	
 //	@Column(name = "TASK_ID")
