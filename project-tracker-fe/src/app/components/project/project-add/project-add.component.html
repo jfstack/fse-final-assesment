@@ -1,7 +1,5 @@
-
-
-          <form class="form-horizontal">
-
+          <form [formGroup]="form" (ngSubmit)="addProject()" class="form-horizontal">
+              <input type="hidden" formControlName="projectId">
               <div class="form-group">
                 <label for="inputProjectName" class="col-sm-2 control-label">Project</label>
                 <div class="col-sm-8">
@@ -9,10 +7,7 @@
                         class="form-control" 
                         id="inputProjectName" 
                         placeholder="Project Name (Required)"
-                        required
-                        minlength="5"
-                        maxlength="50"
-                        name="project"
+                        formControlName="name"
                         >
                 </div>
               </div>
@@ -22,23 +17,24 @@
                   <div class="col-12 col-sm-offset-2 col-sm-3">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox"> Set start date and end date
+                        <input type="checkbox"
+                          (change)="marked = $event.target.checked"> Set start date and end date
                       </label>
                     </div>
                   </div>
                     
                     <div class="col-12 col-sm-2">
                     <input type="date" 
-                            class="form-control" 
-                            required
-                            name="startDate"
+                            class="form-control"
+                            formControlName="startDate"
+                            [disableControl]="marked"
                             >
                   </div>
                   <div class="col-12 col-sm-2">
                   <input type="date" 
-                          class="form-control" 
-                          required
-                          name="endDate"
+                          class="form-control"
+                          formControlName="endDate"
+                          [disableControl]="marked"
                           >
                 </div>
               </div>
@@ -49,11 +45,7 @@
                   <input type="range" 
                         class="form-control" 
                         id="inputPriority" 
-                        required
-                        min="5"
-                        max="30"
-                        value="0"
-                        name="priority"
+                        formControlName="priority"
                         >
                 </div>
               </div>
@@ -65,10 +57,7 @@
                           class="form-control" 
                           id="inputUser" 
                           placeholder="Manager (Required)"
-                          required
-                          minlength="5"
-                          maxlength="50"
-                          name="empId"
+                          formControlName="managerId"
                           >
                   </div>
                   <button type="button" class="btn btn-info">Search</button>

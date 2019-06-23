@@ -178,7 +178,7 @@ public class ProjectTaskController {
 	    	
 	    	if(taskForm.getParentTaskId() != null) {
 	    		Optional<ParentTask> parentTaskFound = this.parentTaskService.getParentTaskById(taskForm.getParentTaskId());
-	    		task.setParentTask(parentTaskFound.orElseGet(() -> null));
+	    		task.setParentTask(parentTaskFound.orElse(null));
 	    		
 	    	}
 	    	

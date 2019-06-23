@@ -21,6 +21,7 @@ import { ProjectCardComponent } from './components/project/project-list/project-
 import { TaskCardComponent } from './components/view-task/task-card/task-card.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FilterUserPipe } from './pipes/filter-user.pipe';
+import { DisableControlDirective } from './directives/disable-control.directive';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { FilterUserPipe } from './pipes/filter-user.pipe';
     ProjectCardComponent,
     TaskCardComponent,
     ModalComponent,
-    FilterUserPipe
+    FilterUserPipe,
+    DisableControlDirective
   ],
   imports: [
     BrowserModule,
