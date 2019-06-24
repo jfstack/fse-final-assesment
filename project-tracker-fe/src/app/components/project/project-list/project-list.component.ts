@@ -21,6 +21,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.projectService.refreshProjectListEventCast.subscribe(
+      () => {
+        this.refreshProjectList();
+      }
+    );
+
     this.projectService.projectListSubjectCast.subscribe(
       project => {
         this.projects.push(project);

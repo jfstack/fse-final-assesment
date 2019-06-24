@@ -89,6 +89,38 @@ public class ProjectTaskController {
     	return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
     
+    
+    @PutMapping(value = "/{projectId}", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Project> updateProject(
+    		@PathVariable("projectId") Long projectId, @RequestBody ProjectForm projectForm) {
+    	
+    	Optional<Project> found = this.projectService.getProjectById(projectId);
+    	if(!found.isPresent()) {
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
+    	
+    	
+    	Project project = found.get();
+    	
+    	if(project.getManager().getEmployeeId() != projectForm.getManagerId()) {
+    		Optional<User> userFound = this.userService.getUserByEmployeeId(projectForm.getManagerId());
+    		if(userFound.isPresent()) {
+    			project.setManager(userFound.get());
+    		}
+    	}
+    	
+    	project.setProject(projectForm.getName());
+    	project.setStartDate(projectForm.getStartDate());
+    	project.setEndDate(projectForm.getEndDate());
+    	project.setPriority(projectForm.getPriority());
+    	
+    	this.projectService.updateProject(project);
+    	
+    	return new ResponseEntity<>(project, HttpStatus.OK);
+    	
+    }
+    
 
 	@GetMapping(value = "/{projectId}/tasks",
 			produces = MediaType.APPLICATION_JSON_VALUE)

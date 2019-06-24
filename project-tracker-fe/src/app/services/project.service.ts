@@ -25,6 +25,13 @@ export class ProjectService {
   projectListSubject = new BehaviorSubject<ProjectDetails>(this.blankProjectDetail);
   projectListSubjectCast = this.projectListSubject.asObservable();
 
+  loadProjectOnEditSubject = new BehaviorSubject<ProjectDetails>(this.blankProjectDetail);
+  loadProjectOnEditSubjectCast = this.loadProjectOnEditSubject.asObservable();
+
+  //This subject is used to refresh the list of users on deletion of an user
+  refreshProjectListEvent = new BehaviorSubject<void>(null);
+  refreshProjectListEventCast = this.refreshProjectListEvent.asObservable();
+
   constructor(private http: HttpClient) { }
 
   createProject(projectForm: ProjectForm) {
@@ -39,6 +46,17 @@ export class ProjectService {
 
   }
 
+  updateProject(projectForm: ProjectForm) {
+    console.log("ProjectService.updateProject");
+    console.log(projectForm);
+    
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    return this.http.put<ProjectDetails>(`${this.baseUrl}/${projectForm.projectId}`, projectForm);
+  }
+
   getProjects() {
     console.log("ProjectService.getProjects");
     return this.http.get<ProjectDetails[]>(this.baseUrl);
@@ -48,21 +66,29 @@ export class ProjectService {
     this.projectListSubject.next(projectDetails);
   }
 
+  castLoadProjectOnEditSubject(project: ProjectDetails) {
+    this.loadProjectOnEditSubject.next(project);
+  }
+
+  castRefreshProjectListEvent() {
+    this.refreshProjectListEvent.next(null);
+  }
+
   getDefaultStartAndEndDate(): Array<string> {
     let d = new Date();
     let day = d.getDate();
     let month = d.getMonth()+1;
-    month = month < 10 ? '0'+month : month;
+    let monthStr = month < 10 ? '0'+month : ''+month;
     let year = d.getFullYear();
-    let today = year + '-' + month + '-' + day;
+    let today = year + '-' + monthStr + '-' + day;
 
     d.setDate(d.getDate() + 1);
     day = d.getDate();
     month = d.getMonth() +1;
-    month = month < 10 ? '0'+month : month;
+    monthStr = month < 10 ? '0'+month : ''+month;
     year = d.getFullYear();
 
-    let tomorrow = year + '-' + month + '-' + day;
+    let tomorrow = year + '-' + monthStr + '-' + day;
 
     return [today, tomorrow];
 
