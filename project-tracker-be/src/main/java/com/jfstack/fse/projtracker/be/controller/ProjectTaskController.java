@@ -254,6 +254,26 @@ public class ProjectTaskController {
     	task.setEndDate(taskForm.getEndDate());
     	task.setPriority(taskForm.getPriority());
     	
+    	if(taskForm.getUserId() != null && 
+    			( task.getOwner() == null || 
+    	    			task.getOwner().getEmployeeId() != taskForm.getUserId()) ) {
+    		
+	    	Optional<User> userFound = this.userService.getUserByEmployeeId(taskForm.getUserId());
+	    	
+	    	if(!userFound.isPresent()) {
+	    		throw new RuntimeException();
+	    	}
+	    	
+	    	task.setOwner(userFound.get());
+    		
+    	}
+    	
+    	if(taskForm.getParentTaskId() != null) {
+    		Optional<ParentTask> parentTaskFound = this.parentTaskService.getParentTaskById(taskForm.getParentTaskId());
+    		task.setParentTask(parentTaskFound.orElse(null));
+    		
+    	}
+    	
     	taskService.updateTask(task);
     	
     	return new ResponseEntity<>(HttpStatus.OK); 

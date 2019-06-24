@@ -19,6 +19,7 @@ export class TaskComponent implements OnInit {
     startDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[0], Validators.required),
     endDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[1], Validators.required),
     priority : new FormControl(1, Validators.required),
+    parentTaskId: new FormControl(''),
     userId : new FormControl('', Validators.required)
   }, {validators: startDateEndDateValidator});
 
