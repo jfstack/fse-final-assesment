@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProjectDetails } from '../../../models/project-details';
 import { ProjectService } from '../../../services/project.service';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectListComponent implements OnInit, OnDestroy {
 
   projects: Array<ProjectDetails>;
 
@@ -20,12 +20,21 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.projectService.projectListSubjectCast.subscribe(
+      project => {
+        this.projects.push(project);
+      }
+    );
+    this.refreshProjectList();
+
   }
 
   refreshProjectList() {
     this.projectListSubscription = 
         this.projectService.getProjects().subscribe(
           data => {
+            console.log("Project data: " + data);
             this.projects = data;
           },
 
@@ -35,4 +44,8 @@ export class ProjectListComponent implements OnInit {
         );
   }
 
+
+  ngOnDestroy() {
+    this.projectListSubscription.unsubscribe();
+  }
 }

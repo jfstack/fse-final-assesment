@@ -60,8 +60,9 @@ public class ProjectTaskController {
     	return new ResponseEntity<>(allProjects.get(), HttpStatus.OK);
     }
     
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addProject(
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Project> addProject(
     		@RequestBody ProjectForm projectForm) {
     	
     	Project project = new Project();
@@ -85,7 +86,7 @@ public class ProjectTaskController {
     	
     	HttpHeaders headers = new HttpHeaders();
     	
-    	return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    	return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
     
 

@@ -22,6 +22,7 @@ import { TaskCardComponent } from './components/view-task/task-card/task-card.co
 import { ModalComponent } from './components/modal/modal.component';
 import { FilterUserPipe } from './pipes/filter-user.pipe';
 import { DisableControlDirective } from './directives/disable-control.directive';
+import { CountTaskPipe } from './pipes/count-task.pipe';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { DisableControlDirective } from './directives/disable-control.directive'
     TaskCardComponent,
     ModalComponent,
     FilterUserPipe,
-    DisableControlDirective
+    DisableControlDirective,
+    CountTaskPipe
   ],
   imports: [
     BrowserModule,

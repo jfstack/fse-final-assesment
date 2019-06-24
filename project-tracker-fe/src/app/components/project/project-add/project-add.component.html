@@ -9,6 +9,9 @@
                         placeholder="Project Name (Required)"
                         formControlName="name"
                         >
+                  <div *ngIf="form.controls.name.touched &&
+                    !form.controls.name.valid" 
+                    class="alert alert-danger">Project name required</div>
                 </div>
               </div>
 
@@ -59,6 +62,9 @@
                           placeholder="Manager (Required)"
                           formControlName="managerId"
                           >
+                    <div *ngIf="form.controls.managerId.touched &&
+                      !form.controls.managerId.valid" 
+                      class="alert alert-danger">Manager required</div>
                   </div>
                   <button type="button" class="btn btn-info">Search</button>
                 </div>
@@ -69,6 +75,7 @@
                   <button class="btn btn-primary"
                     type="submit"
                     style="width:80px;margin-right:10px"
+                    [disabled]="!form.valid"
                     >Add</button>
 
                   <button class="btn btn-outline-secondary"

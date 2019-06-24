@@ -2,15 +2,15 @@
   <div class="col-12 col-md-4">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Project: {{project.name}}</h4>
+        <h4 class="card-title">Project: {{project.project}}</h4>
         <table class="table">
           <tr>
-            <td>No of Tasks: </td>
-            <td>Comleted: </td>
+            <td>No of Tasks: {{project.tasks.length}}</td>
+            <td>Task Comleted: {{project.tasks | countTask:'COMPLETED'}}</td>
           </tr>
           <tr>
-            <td>Start date: </td>
-            <td>End date: </td>
+            <td>Start date: {{project.startDate}}</td>
+            <td>End date: {{project.endDate}}</td>
           </tr>
         </table>
       </div>
@@ -20,7 +20,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Priority</h4>
-        <span>High</span>
+        <span>{{project.priority}}</span>
       </div>
     </div>
   </div>
