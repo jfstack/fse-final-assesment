@@ -15,6 +15,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   projectListSubscription: Subscription;
 
+  searchTerm: string;
+
   constructor(private projectService: ProjectService) { 
     this.projects = [];
   }
@@ -50,6 +52,43 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         );
   }
 
+  sortProjectBy(sortKey: string) {
+    if(sortKey) {
+
+      if(sortKey === 'startdate') {
+        if(this.projects) {
+          this.projects.sort(
+            (p1, p2) => {
+              return p1.startDate < p2.startDate ? -1 : p1.startDate > p2.startDate ? 1 : 0;
+            }
+          );
+        }
+      }
+
+      if(sortKey === 'enddate') {
+        if(this.projects) {
+          this.projects.sort(
+            (p1, p2) => {
+              return p1.endDate < p2.endDate ? -1 : p1.endDate > p2.endDate ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
+      if(sortKey === 'priority') {
+        if(this.projects) {
+          this.projects.sort(
+            (p1, p2) => {
+              return p1.priority < p2.priority ? -1 : p1.priority > p2.priority ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
+    }
+  }
 
   ngOnDestroy() {
     this.projectListSubscription.unsubscribe();

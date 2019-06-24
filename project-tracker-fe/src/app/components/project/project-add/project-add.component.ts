@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectService } from '../../../services/project.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { startDateEndDateValidator } from '../../../validators/date.validator';
 
 @Component({
   selector: 'project-add',
@@ -20,7 +21,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     endDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[1], Validators.required),
     priority : new FormControl(1, Validators.required),
     managerId : new FormControl('', Validators.required)
-  });
+  }, {validators: startDateEndDateValidator});
 
   marked = false;
   enableUpdateButton = false;

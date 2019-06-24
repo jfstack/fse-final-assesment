@@ -23,6 +23,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { FilterUserPipe } from './pipes/filter-user.pipe';
 import { DisableControlDirective } from './directives/disable-control.directive';
 import { CountTaskPipe } from './pipes/count-task.pipe';
+import { FilterProjectPipe } from './pipes/filter-project.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CountTaskPipe } from './pipes/count-task.pipe';
     ModalComponent,
     FilterUserPipe,
     DisableControlDirective,
-    CountTaskPipe
+    CountTaskPipe,
+    FilterProjectPipe
   ],
   imports: [
     BrowserModule,

@@ -1,21 +1,21 @@
 <div class="row">
-    <div class="col-sm-3"><input type="text" placeholder="Search..."></div>
+    <div class="col-sm-3"><input type="text" [(ngModel)]="searchTerm" placeholder="Search..."></div>
     
     <div class="col-sm-1">Sort:</div>
     <div class="col-sm-1">
-      <button type="button" class="btn btn-info">Start Date</button>
+      <button type="button" class="btn btn-info" (click)="sortProjectBy('startdate')">Start Date</button>
     </div>
     <div class="col-sm-1">
-        <button type="button" class="btn btn-info">End Date</button>
+        <button type="button" class="btn btn-info" (click)="sortProjectBy('enddate')">End Date</button>
     </div>
     <div class="col-sm-1">
-        <button type="button" class="btn btn-info">Priority</button>
+        <button type="button" class="btn btn-info" (click)="sortProjectBy('priority')">Priority</button>
     </div>
     <div class="col-sm-1">
         <button type="button" class="btn btn-info">Completed</button>
     </div>
   </div>
   <div style="margin-top: 10px;">
-      <project-card *ngFor="let project of projects" [project]="project"></project-card>
+      <project-card *ngFor="let project of projects | filterProject:searchTerm" [project]="project"></project-card>
   </div>
    
