@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,33 +34,41 @@ public class ParentTaskRepositoryTest {
     
     @Before
     public void setup() {
+        User user = userRepository.save(Dummy.createUser());
+
+        Project project = Dummy.createBlankProject();
+        project.setManager(user);
+        project = projectRepository.save(project);
+
+        ParentTask parentTask = Dummy.createBlankParentTask();
+        parentTask.setProject(project);
+
+
+        repository.save(parentTask);
     }
 
     @Test
-    public void testSaveParentTask() {
-
-    	User user = userRepository.save(Dummy.createUser());
-    	
-    	Project project = Dummy.createBlankProject();
-    	project.setManager(user);
-    	project = projectRepository.save(project);
-    	
-        ParentTask parentTask = Dummy.createBlankParentTask();
-        parentTask.setProject(project);
-        
-
-        repository.save(parentTask);
+    public void testFindByParentTask() {
 
         Optional<ParentTask> actual = repository.findByParentTask("parent task 1");
 
         assertThat(actual).isNotEmpty();
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).isInstanceOf(ParentTask.class);
-        assertThat(actual.get().getParentTask()).isEqualTo(parentTask.getParentTask());
+        assertThat(actual.get().getParentTask()).isEqualTo("parent task 1");
         assertThat(actual.get().getProject()).isNotNull();
         assertThat(actual.get().getProject().getProject()).isEqualTo("project 1");
         assertThat(actual.get().getProject().getManager()).isNotNull();
         assertThat(actual.get().getProject().getManager().getEmployeeId()).isEqualTo(208066);
 
+    }
+
+    @Test
+    public void givenValidProjectId_whenFindAllParentTasks_thenReturnAllParentTasks() {
+        List<ParentTask> actual = repository.findAllByProject_ProjectId(2L);
+        assertThat(actual).isNotNull();
+        assertThat(actual).isNotEmpty();
+        assertThat(actual).isInstanceOf(List.class);
+        assertThat(actual.size()).isEqualTo(1);
     }
 }

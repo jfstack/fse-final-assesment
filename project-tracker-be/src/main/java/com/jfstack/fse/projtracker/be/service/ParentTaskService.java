@@ -13,6 +13,8 @@ public interface ParentTaskService {
 
     Optional<List<ParentTask>> getAllParentTasks();
 
+    List<ParentTask> getAllParentTasksByProject(Long projectId);
+
     void addParentTask(ParentTask task);
 
     void deleteParentTask(Long taskId);

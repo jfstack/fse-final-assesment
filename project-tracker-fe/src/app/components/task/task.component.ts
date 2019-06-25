@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectService } from 'src/app/services/project.service';
 import { startDateEndDateValidator } from '../../validators/date.validator';
+import { ModalService } from '../../services/modal.service';
 
 
 @Component({
@@ -23,9 +24,19 @@ export class TaskComponent implements OnInit {
     userId : new FormControl('', Validators.required)
   }, {validators: startDateEndDateValidator});
 
-  constructor(private projectService: ProjectService) { }
+  constructor(
+    private projectService: ProjectService,
+    private modalService: ModalService) { }
 
   ngOnInit() {
+  }
+
+  openModal(modalId: string) {
+    this.modalService.open(modalId);
+  }
+
+  closeModal(modalId: string) {
+    this.modalService.close(modalId);
   }
 
 }

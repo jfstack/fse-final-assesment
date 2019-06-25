@@ -18,9 +18,12 @@
                         minlength="5"
                         maxlength="50"
                         name="project"
+                        readonly
                         >
                 </div>
-                <button type="button" class="btn btn-info">Search</button>
+                <button type="button" 
+                  class="btn btn-info" 
+                  (click)="openModal('all-projects-modal')">Search</button>
               </div>
 
               <div class="form-group">
@@ -74,6 +77,7 @@
                         minlength="5"
                         maxlength="50"
                         name="parentTask"
+                        readonly
                         >
                 </div>
                 <button type="button" class="btn btn-info">Search</button>
@@ -111,6 +115,7 @@
                           minlength="5"
                           maxlength="50"
                           name="empId"
+                          readonly
                           >
                   </div>
                   <button type="button" class="btn btn-info">Search</button>
@@ -135,3 +140,9 @@
             </form>
         </div>
   </div>
+
+  <jw-modal id="all-projects-modal">
+    <h1>A Custom Angular 7 Modal!</h1>
+    <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
+    <button (click)="closeModal('all-projects-modal');">Close</button>
+  </jw-modal>

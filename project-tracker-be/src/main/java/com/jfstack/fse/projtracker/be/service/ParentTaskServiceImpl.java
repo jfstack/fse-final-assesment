@@ -53,6 +53,12 @@ public class ParentTaskServiceImpl implements ParentTaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<ParentTask> getAllParentTasksByProject(Long projectId) {
+        return repository.findAllByProject_ProjectId(projectId);
+    }
+
+    @Override
     @Transactional
     public void addParentTask(ParentTask task) {
         if(task == null) {

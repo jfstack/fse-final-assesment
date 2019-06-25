@@ -120,6 +120,18 @@ public class ProjectTaskController {
     	return new ResponseEntity<>(project, HttpStatus.OK);
     	
     }
+
+    @PatchMapping(value = "/{projectId}")
+    public ResponseEntity<Void> suspendProject(@PathVariable("projectId") Long projectId) {
+
+    	Optional<Project> found = this.projectService.getProjectById(projectId);
+		if(!found.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		//introduce a new field in project called status
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
     
 
 	@GetMapping(value = "/{projectId}/tasks",
@@ -139,6 +151,26 @@ public class ProjectTaskController {
     	
     }
 	
+
+	@GetMapping(value = "/{projectId}/tasks/parents",
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ParentTask>> getAllParentTasks(
+    		@PathVariable("projectId") Long projectId) {
+
+		List<ParentTask> allParentTasks =
+				parentTaskService.getAllParentTasksByProject(projectId);
+
+		HttpHeaders headers = new HttpHeaders();
+    	headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+
+    	if(allParentTasks.isEmpty()) {
+    		return new ResponseEntity<>(new ArrayList<>(), headers, HttpStatus.NO_CONTENT);
+    	}
+
+    	return new ResponseEntity<>(allParentTasks, headers, HttpStatus.OK);
+
+    }
+
 
 	@GetMapping(value = "/{projectId}/tasks/{taskId}",
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -295,5 +327,22 @@ public class ProjectTaskController {
     	
     	
     }
+
+    @PatchMapping(value = "/{projectId}/tasks/{taskId}")
+    public ResponseEntity<Void> endTask(@PathVariable("taskId") Long taskId) {
+
+		Optional<Task> found = taskService.getTaskById(taskId);
+
+		if (!found.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		Task task = found.get();
+		task.setStatus("COMPLETED");
+		taskService.updateTask(task);
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+	}
 
 }

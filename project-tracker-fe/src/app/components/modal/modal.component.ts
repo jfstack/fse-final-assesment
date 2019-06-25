@@ -5,11 +5,11 @@ import { ModalService } from '../../services/modal.service';
   selector: 'jw-modal',
   template:
     `<div class="jw-modal">
-    <div class="jw-modal-body">
-      <ng-content></ng-content>
+      <div class="jw-modal-body">
+        <ng-content></ng-content>
+      </div>
     </div>
-  </div>
-  <div class="jw-modal-background"></div>`,
+    <div class="jw-modal-background"></div>`,
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit, OnDestroy {
