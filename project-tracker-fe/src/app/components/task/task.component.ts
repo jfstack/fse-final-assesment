@@ -24,6 +24,10 @@ export class TaskComponent implements OnInit {
     userId : new FormControl('', Validators.required)
   }, {validators: startDateEndDateValidator});
 
+  selectedProject: string;
+  selectedParentTask: string;
+  selectedUser: string;
+
   constructor(
     private projectService: ProjectService,
     private modalService: ModalService) { }
@@ -37,6 +41,22 @@ export class TaskComponent implements OnInit {
 
   closeModal(modalId: string) {
     this.modalService.close(modalId);
+  }
+
+  selectProjectFromModal(event) {
+    console.log("Event data");
+    console.log(event);
+    
+  }
+
+  selectParentTaskFromModal(event) {
+    console.log("Event data");
+    console.log(event);
+  }
+
+  selectUserFromModal(event) {
+    console.log("Event data");
+    console.log(event);
   }
 
 }

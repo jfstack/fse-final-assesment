@@ -80,7 +80,9 @@
                         readonly
                         >
                 </div>
-                <button type="button" class="btn btn-info">Search</button>
+                <button type="button" 
+                class="btn btn-info"
+                (click)="openModal('all-parent-tasks-modal')">Search</button>
               </div>
 
               <div class="form-group">
@@ -118,7 +120,9 @@
                           readonly
                           >
                   </div>
-                  <button type="button" class="btn btn-info">Search</button>
+                  <button type="button" 
+                  class="btn btn-info"
+                  (click)="openModal('all-users-modal')">Search</button>
                 </div>
 
               <div class="form-group">
@@ -141,8 +145,20 @@
         </div>
   </div>
 
-  <jw-modal id="all-projects-modal">
-    <h1>A Custom Angular 7 Modal!</h1>
-    <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
-    <button (click)="closeModal('all-projects-modal');">Close</button>
+  <jw-modal id="all-projects-modal" 
+    type="Projects"
+    title="List of available projects"
+    (onSelect)="selectProjectFromModal($event)">
+  </jw-modal>
+
+  <jw-modal id="all-parent-tasks-modal" 
+    type="ParentTasks"
+    title="List of parent tasks"
+    (onSelect)="selectParentTaskFromModal($event)">
+  </jw-modal>
+
+  <jw-modal id="all-users-modal" 
+    type="Users"
+    title="List of available users"
+    (onSelect)="selectUserFromModal($event)">
   </jw-modal>
