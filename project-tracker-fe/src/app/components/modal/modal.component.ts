@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { ModalRecord } from '../../models/modal-record';
+import { ProjectService } from 'src/app/services/project.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ProjectDetails } from 'src/app/models/project-details';
 
 @Component({
   selector: 'jw-modal',
@@ -48,9 +51,12 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   private element: any;
 
-  constructor(private modalService: ModalService, private el: ElementRef) {
-    this.element = el.nativeElement;
-    this.records = [{id: 1, name: 'record1'}, {id: 2, name: 'record2'}]
+  constructor(private modalService: ModalService, 
+    private el: ElementRef,
+    private projectService: ProjectService) {
+
+      this.element = el.nativeElement;
+      this.records = [{id: 1, name: 'record1'}, {id: 2, name: 'record2'}]
   }
 
   ngOnInit() {
@@ -63,6 +69,12 @@ export class ModalComponent implements OnInit, OnDestroy {
     // ensure id attribute exists
     if (!this.id) {
       console.error('modal must have an id');
+      return;
+    }
+
+    // ensure title attribute exists
+    if (!this.type) {
+      console.error('modal must have a type');
       return;
     }
 
@@ -94,7 +106,37 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    console.log("Loading....");
+    if(this.type === 'Projects') {
+      console.log("Loading projects....");
+
+      this.projectService.getProjects().subscribe(
+        (data: ProjectDetails[]) => {
+          if(data) {
+            this.records = data.map(
+              (pd: ProjectDetails) => {
+                return new ModalRecord(pd.projectId, pd.project);
+              }
+            );
+          }
+        },
+
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+        }
+
+      );
+
+    }
+
+    if(this.type === 'ParentTasks') {
+      console.log("Loading parent tasks....");
+
+    }
+
+    if(this.type === 'Users') {
+      console.log("Loading users....");
+
+    }
   }
 
   select(record: ModalRecord) {

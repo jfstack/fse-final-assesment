@@ -5,8 +5,13 @@
         </div>
         <div class="panel-body">
           
-          <form class="form-horizontal">
-
+          <form [formGroup]="form" (ngSubmit)="addTask()" class="form-horizontal">
+              
+              <input type="hidden" formControlName="taskId">
+              <input type="hidden" formControlName="projectId">
+              <input type="hidden" formControlName="parentTaskId">
+              <input type="hidden" formControlName="userId">
+              
               <div class="form-group">
                 <label for="inputProjectName" class="col-sm-2 control-label">Project</label>
                 <div class="col-sm-8">
@@ -14,10 +19,7 @@
                         class="form-control" 
                         id="inputProjectName" 
                         placeholder="Project Name (Required)"
-                        required
-                        minlength="5"
-                        maxlength="50"
-                        name="project"
+                        formControlName="projectName"
                         readonly
                         >
                 </div>
@@ -33,10 +35,7 @@
                         class="form-control" 
                         id="inputTaskName" 
                         placeholder="Task Name (Required)"
-                        required
-                        minlength="5"
-                        maxlength="50"
-                        name="task"
+                        formControlName="name"
                         >
                 </div>
               </div>
@@ -45,7 +44,7 @@
                   <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox"> Parent Task
+                        <input type="checkbox" formControlName="parentType"> Parent Task
                       </label>
                     </div>
                   </div>
@@ -57,11 +56,8 @@
                   <input type="range" 
                         class="form-control" 
                         id="inputPriority" 
-                        required
-                        min="5"
-                        max="30"
-                        value="0"
-                        name="priority"
+                        value="1"
+                        formControlName="priority"
                         >
                 </div>
               </div>
@@ -73,10 +69,7 @@
                         class="form-control" 
                         id="inputParentTask" 
                         placeholder="Parent Task (Optional)"
-                        required
-                        minlength="5"
-                        maxlength="50"
-                        name="parentTask"
+                        formControlName="parentTaskName"
                         readonly
                         >
                 </div>
@@ -91,8 +84,7 @@
                       <input type="date" 
                             class="form-control" 
                             id="inputStartDate" 
-                            required
-                            name="startDate"
+                            formControlName="startDate"
                             >
                   </div>
                   <label for="inputEndDate" class="col-sm-2 control-label">End Date</label>
@@ -100,8 +92,7 @@
                       <input type="date" 
                             class="form-control" 
                             id="inputEndDate" 
-                            required
-                            name="endDate"
+                            formControlName="endDate"
                             >
                   </div>
                 </div>
@@ -113,10 +104,7 @@
                           class="form-control" 
                           id="inputUser" 
                           placeholder="User (Required)"
-                          required
-                          minlength="5"
-                          maxlength="50"
-                          name="empId"
+                          formControlName="userName"
                           readonly
                           >
                   </div>
