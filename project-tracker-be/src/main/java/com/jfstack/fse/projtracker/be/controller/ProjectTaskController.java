@@ -198,7 +198,8 @@ public class ProjectTaskController {
     		@PathVariable("projectId") Long projectId,
             @RequestBody TaskForm taskForm/*,
             UriComponentsBuilder ucBuilder*/) {
-    	
+
+		System.out.println("task form:" + taskForm.toString());
     	System.out.println("projectId:" + taskForm.getProjectId());
     	System.out.println("name:" + taskForm.getName());
     	System.out.println("isParent:" + taskForm.isParent());

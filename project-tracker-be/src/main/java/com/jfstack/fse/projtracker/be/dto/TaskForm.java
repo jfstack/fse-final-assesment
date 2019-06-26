@@ -87,7 +87,7 @@ public class TaskForm {
 	}
 
 	public Boolean isParent() {
-		return ("yes".equalsIgnoreCase(parentType)) ? true : false;
+		return ("true".equalsIgnoreCase(parentType)) ? true : false;
 	}
 
 	public void setParentType(String parentType) {
@@ -97,6 +97,18 @@ public class TaskForm {
 	public String getParentType() {
 		return this.parentType;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "TaskForm{" +
+				"projectId=" + projectId +
+				", name='" + name + '\'' +
+				", parentType='" + parentType + '\'' +
+				", priority=" + priority +
+				", parentTaskId=" + parentTaskId +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", userId=" + userId +
+				'}';
+	}
 }

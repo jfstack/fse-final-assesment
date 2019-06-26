@@ -4,6 +4,11 @@
           <h3 class="panel-title">Add/Edit</h3>
         </div>
         <div class="panel-body">
+
+          <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              Task is created successfully
+            </div>
           
           <form [formGroup]="form" (ngSubmit)="addTask()" class="form-horizontal">
               

@@ -4,6 +4,10 @@ import { ModalRecord } from '../../models/modal-record';
 import { ProjectService } from 'src/app/services/project.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProjectDetails } from 'src/app/models/project-details';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
+import { TaskService } from '../../services/task.service';
+import { ParentTask } from '../../models/parent-task';
 
 @Component({
   selector: 'jw-modal',
@@ -31,7 +35,7 @@ import { ProjectDetails } from 'src/app/models/project-details';
           </table>
         </div>
         <button type="button" class="btn btn-sm btn-primary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-sm btn-primary" (click)="choose(); close()">Choose</button>
+        <button type="button" class="btn btn-sm btn-success" (click)="choose(); close()">Choose</button>
       </div>
     </div>
     <div class="jw-modal-background"></div>`,
@@ -53,7 +57,9 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   constructor(private modalService: ModalService, 
     private el: ElementRef,
-    private projectService: ProjectService) {
+    private projectService: ProjectService,
+    private userService: UserService,
+    private taskService: TaskService) {
 
       this.element = el.nativeElement;
       this.records = [{id: 1, name: 'record1'}, {id: 2, name: 'record2'}]
@@ -130,12 +136,43 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     if(this.type === 'ParentTasks') {
       console.log("Loading parent tasks....");
+      console.log("Selected project id:" + localStorage.getItem('selectedProjectId'));
+
+      this.taskService.getParentTasks(localStorage.getItem('selectedProjectId')).subscribe(
+        (data: ParentTask[]) => {
+          if(data) {
+            this.records = data.map(
+              (pt: ParentTask) => {
+                return new ModalRecord(pt.parentId, pt.parentTask);
+              }
+            );
+          }
+        },
+
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+        }
+      );
 
     }
 
     if(this.type === 'Users') {
       console.log("Loading users....");
+      this.userService.getUsers().subscribe(
+        (data: User[]) => {
+          if(data) {
+            this.records = data.map(
+              (u: User) => {
+                return new ModalRecord(u.employeeId, u.firstName+', '+u.lastName);
+              }
+            );
+          }
+        },
 
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+        }
+      );
     }
   }
 

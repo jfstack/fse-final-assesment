@@ -28,9 +28,9 @@ export class TaskComponent implements OnInit {
     userName: new FormControl('')
   }, {validators: startDateEndDateValidator});
 
-  selectedProject: string;
-  selectedParentTask: string;
-  selectedUser: string;
+  // selectedProject: string;
+  // selectedParentTask: string;
+  // selectedUser: string;
 
   constructor(
     private projectService: ProjectService,
@@ -54,7 +54,7 @@ export class TaskComponent implements OnInit {
     console.log(event);
     // this.form.controls['projectName'].setValue(event.name);
     this.form.patchValue({ projectId: event.id, projectName: event.name });
-    
+    localStorage.setItem("selectedProjectId", event.id);
   }
 
   selectParentTaskFromModal(event) {
