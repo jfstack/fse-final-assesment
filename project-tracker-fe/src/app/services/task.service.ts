@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TaskForm } from '../models/task-form';
 import { ParentTask } from '../models/parent-task';
+import { TaskDetails } from 'src/app/models/task-details';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,20 @@ export class TaskService {
 
   }
 
-  getTasks() {
-
+  getTasks(projectId) {
+    return this.http.get<TaskDetails[]>(`${this.baseUrl}/${projectId}/tasks`);
   }
 
   getParentTasks(projectId) {
     return this.http.get<ParentTask[]>(`${this.baseUrl}/${projectId}/tasks/parents`);
+  }
+  
+  editTask() {
+
+  }
+
+  endTask(projectId, taskId) {
+    // return this.http.patch<void>(``);
   }
 
 }

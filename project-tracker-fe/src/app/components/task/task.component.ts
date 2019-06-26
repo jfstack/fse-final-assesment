@@ -110,7 +110,7 @@ export class TaskComponent implements OnInit {
 
       (error: HttpErrorResponse) => {
         console.log(error.name + ' ' + error.message);
-        this.status = { success: false, msg: "Task created successfully"};
+        this.status = { success: false, msg: "Something went wrong..."};
       }
 
     );

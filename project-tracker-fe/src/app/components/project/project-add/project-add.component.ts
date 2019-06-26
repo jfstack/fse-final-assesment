@@ -4,6 +4,7 @@ import { ProjectService } from '../../../services/project.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { startDateEndDateValidator } from '../../../validators/date.validator';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'project-add',
@@ -20,7 +21,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     // endDate : new FormControl({value: '2019-06-23', disabled: true}, Validators.required),
     endDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[1], Validators.required),
     priority : new FormControl(1, Validators.required),
-    managerId : new FormControl('', Validators.required)
+    managerId : new FormControl(-1),
+    managerName : new FormControl('')
   }, {validators: startDateEndDateValidator});
 
   marked = false;
@@ -30,7 +32,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   updateProjectSubscription: Subscription;
   loadProjectOnEditSubscription: Subscription;
 
-  constructor(private projectService: ProjectService) { 
+  constructor(private projectService: ProjectService, private modalService: ModalService) { 
   }
 
   ngOnInit() {
@@ -45,7 +47,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
             startDate: data.startDate,
             endDate: data.endDate,
             priority: data.priority,
-            managerId: (data.manager) ? data.manager.employeeId : ''
+            managerId: (data.manager) ? data.manager.employeeId : -1,
+            managerName: (data.manager) ? data.manager.firstName+', '+data.manager.lastName : ''
           });
           this.form.patchValue({
             startDate: data.startDate,
@@ -109,8 +112,19 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       startDate: this.projectService.getDefaultStartAndEndDate()[0],
       endDate: this.projectService.getDefaultStartAndEndDate()[1],
       priority: 1,
-      managerId: ''
+      managerId: -1,
+      managerName: ''
     });
+  }
+
+  openModal(modalId: string) {
+    this.modalService.open(modalId);
+  }
+
+  selectUserFromModal(event) {
+    console.log("Event data");
+    console.log(event);
+    this.form.patchValue({ managerId: event.id, managerName: event.name });
   }
 
   ngOnDestroy() {

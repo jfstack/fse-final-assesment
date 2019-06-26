@@ -8,19 +8,21 @@
             <th>Priority</th>
             <th>Start</th>
             <th>End</th>
+            <th>Status</th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>A</td>
-            <td>A</td>
-            <td>A</td>
-            <td>A</td>
-            <td>A</td>
-            <td><button type="button" class="btn btn-primary">Edit</button></td>
-            <td><button type="button" class="btn btn-primary">End Task</button></td>
+            <td>{{ task.task }}</td>
+            <td>{{ task.parentTask?.parentTask }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.startDate }}</td>
+            <td>{{ task.endDate }}</td>
+            <td>{{ task.status }}</td>
+            <td><button type="button" class="btn btn-primary" (click)="editTask(task)">Edit</button></td>
+            <td><button type="button" class="btn btn-primary" (click)="endTask(task)">End Task</button></td>
           </tr>
         </tbody>
       </table>

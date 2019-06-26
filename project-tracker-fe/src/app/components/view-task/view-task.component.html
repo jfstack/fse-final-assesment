@@ -6,29 +6,38 @@
         <div class="panel-body">
 
             <div class="row">
-                <div class="col-sm-3">
-                  Project: <input type="text" placeholder="Search...">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <div class="col-sm-4">
+                    <form [formGroup]="form">
+                        <input type="hidden" formControlName="projectId">
+                        Project: <input type="text" formControlName="projectName" placeholder="Search..." readonly>
+                        <button type="button" class="btn btn-sm btn-info" 
+                            (click)="openModal('all-projects-modal')">Search</button>
+                    </form>
                 </div>
                 
                 <div class="col-sm-1">Sort:</div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-info">Start Date</button>
+                  <button type="button" class="btn btn-sm btn-info">Start Date</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-info">End Date</button>
+                    <button type="button" class="btn btn-sm btn-info">End Date</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-info">Priority</button>
+                    <button type="button" class="btn btn-sm btn-info">Priority</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-info">Completed</button>
+                    <button type="button" class="btn btn-sm btn-info">Completed</button>
                 </div>
               </div>
               <div style="margin-top: 10px;">
-                  <task-card></task-card>
-                  <task-card></task-card>
+                  <task-card *ngFor="let task of tasks" [task]="task"></task-card>
               </div>
           
         </div>
   </div>
+
+  <jw-modal id="all-projects-modal" 
+    type="Projects"
+    title="List of available projects"
+    (onSelect)="selectProjectFromModal($event)">
+  </jw-modal>
