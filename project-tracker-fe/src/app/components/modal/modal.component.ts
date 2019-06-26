@@ -62,7 +62,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     private taskService: TaskService) {
 
       this.element = el.nativeElement;
-      this.records = [{id: 1, name: 'record1'}, {id: 2, name: 'record2'}]
+      this.records = [];
   }
 
   ngOnInit() {
@@ -136,23 +136,28 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     if(this.type === 'ParentTasks') {
       console.log("Loading parent tasks....");
-      console.log("Selected project id:" + localStorage.getItem('selectedProjectId'));
 
-      this.taskService.getParentTasks(localStorage.getItem('selectedProjectId')).subscribe(
-        (data: ParentTask[]) => {
-          if(data) {
-            this.records = data.map(
-              (pt: ParentTask) => {
-                return new ModalRecord(pt.parentId, pt.parentTask);
-              }
-            );
+      let selectedProjectId = localStorage.getItem('selectedProjectId');
+      console.log("Selected project id:" + selectedProjectId);
+
+      if(selectedProjectId) {
+        this.taskService.getParentTasks(selectedProjectId).subscribe(
+          (data: ParentTask[]) => {
+            if(data) {
+              this.records = data.map(
+                (pt: ParentTask) => {
+                  return new ModalRecord(pt.parentId, pt.parentTask);
+                }
+              );
+            }
+          },
+
+          (error: HttpErrorResponse) => {
+            console.log(error.name + ' ' + error.message);
           }
-        },
+        );
 
-        (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
-        }
-      );
+      }
 
     }
 
@@ -185,6 +190,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     console.log("selected record:");
     console.log(this.selectedRecord);
     this.onSelect.emit(this.selectedRecord);
+    this.records = [];
   }
 
 }
