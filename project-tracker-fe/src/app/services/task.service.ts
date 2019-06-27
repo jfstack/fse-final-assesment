@@ -45,8 +45,4 @@ export class TaskService {
 
   }
 
-  endTask(projectId, taskId) {
-    // return this.http.patch<void>(``);
-  }
-
 }

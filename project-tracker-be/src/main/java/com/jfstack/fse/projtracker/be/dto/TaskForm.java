@@ -29,6 +29,8 @@ public class TaskForm {
 	private LocalDate endDate;
 	
 	private Integer userId;
+	
+	private String status;
 
 	public Long getProjectId() {
 		return projectId;
@@ -97,6 +99,14 @@ public class TaskForm {
 	public String getParentType() {
 		return this.parentType;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
@@ -109,6 +119,7 @@ public class TaskForm {
 				", startDate=" + startDate +
 				", endDate=" + endDate +
 				", userId=" + userId +
+				", status=" + status +
 				'}';
 	}
 }

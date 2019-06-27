@@ -8,4 +8,5 @@ export class TaskForm {
     priority: number;
     parentTaskId: number;
     userId: number;
+    status: string;
 }

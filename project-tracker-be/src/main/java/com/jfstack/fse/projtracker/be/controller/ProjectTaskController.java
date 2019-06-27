@@ -286,6 +286,7 @@ public class ProjectTaskController {
     	task.setStartDate(taskForm.getStartDate());
     	task.setEndDate(taskForm.getEndDate());
     	task.setPriority(taskForm.getPriority());
+    	task.setStatus(taskForm.getStatus());
     	
     	if(taskForm.getUserId() != null && 
     			( task.getOwner() == null || 

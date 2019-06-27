@@ -14,8 +14,8 @@ export class ProjectService {
   blankProjectDetail = {
     projectId: -1,
     project: '',
-    startDate: '2019-06-24',
-    endDate: '2019-06-25',
+    startDate: this.getDefaultStartAndEndDate()[0],
+    endDate: this.getDefaultStartAndEndDate()[1],
     priority: 1,
     manager: null,
     tasks: []
