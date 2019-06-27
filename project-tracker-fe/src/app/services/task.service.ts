@@ -33,7 +33,15 @@ export class TaskService {
     return this.http.get<ParentTask[]>(`${this.baseUrl}/${projectId}/tasks/parents`);
   }
   
-  editTask() {
+  updateTask(taskForm: TaskForm) {
+    console.log("TaskService.updateTask");
+    console.log(taskForm);
+    
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    
+    return this.http.put<void>(`${this.baseUrl}/${taskForm.projectId}/tasks/${taskForm.taskId}`, taskForm);
 
   }
 

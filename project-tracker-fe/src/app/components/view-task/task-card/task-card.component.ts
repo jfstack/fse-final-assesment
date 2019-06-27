@@ -17,7 +17,23 @@ export class TaskCardComponent implements OnInit {
   }
 
   editTask(task: TaskDetails) {
-    this.router.navigate(['task']);
+    let extras = { 
+      state: {
+        projectId: task.projectId, 
+        projectName: task.projectName,
+        taskId: task.taskId,
+        name: task.task,
+        parentType: false,
+        priority: task.priority,
+        parentTaskId: task.parentTask ? task.parentTask.parentId : -1,
+        parentTaskName: task.parentTask ? task.parentTask.parentTask : '',
+        startDate: task.startDate,
+        endDate: task.endDate,
+        userId: task.owner.employeeId,
+        userName: task.owner.firstName +', '+ task.owner.lastName
+      } 
+    };
+    this.router.navigate(['task'], extras);
   }
 
   endTask(task: TaskDetails) {

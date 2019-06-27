@@ -17,16 +17,16 @@
                 
                 <div class="col-sm-1">Sort:</div>
                 <div class="col-sm-1">
-                  <button type="button" class="btn btn-sm btn-info">Start Date</button>
+                  <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('startdate')">Start Date</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info">End Date</button>
+                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('enddate')">End Date</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info">Priority</button>
+                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('priority')">Priority</button>
                 </div>
                 <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info">Completed</button>
+                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('status')">Completed</button>
                 </div>
               </div>
               <div style="margin-top: 10px;">

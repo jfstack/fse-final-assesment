@@ -53,4 +53,55 @@ export class ViewTaskComponent implements OnInit {
 
   }
 
+
+  sortTasksBy(sortKey: string) {
+    if(sortKey) {
+
+      if(sortKey === 'startdate') {
+        if(this.tasks) {
+          this.tasks.sort(
+            (t1, t2) => {
+              return t1.startDate < t2.startDate ? -1 : t1.startDate > t2.startDate ? 1 : 0;
+            }
+          );
+        }
+      }
+
+      if(sortKey === 'enddate') {
+        if(this.tasks) {
+          this.tasks.sort(
+            (t1, t2) => {
+              return t1.endDate < t2.endDate ? -1 : t1.endDate > t2.endDate ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
+      if(sortKey === 'priority') {
+        if(this.tasks) {
+          this.tasks.sort(
+            (t1, t2) => {
+              return t1.priority < t2.priority ? -1 : t1.priority > t2.priority ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
+      if(sortKey === 'status') {
+        if(this.tasks) {
+          this.tasks.sort(
+            (t1, t2) => {
+              return t1.status < t2.status ? -1 : t1.status > t2.status ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
+    }
+  }
+
+
 }

@@ -6,6 +6,7 @@ import { startDateEndDateValidator } from '../../validators/date.validator';
 import { ModalService } from '../../services/modal.service';
 import { IStatus } from '../../models/status';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,10 +37,18 @@ export class TaskComponent implements OnInit {
 
   status: IStatus;
 
+  navigationExtrasState;
+
   constructor(
     private projectService: ProjectService,
     private modalService: ModalService,
-    private taskService: TaskService) { }
+    private taskService: TaskService,
+    private router: Router) { 
+      console.log("Navigation extras:");
+      console.log(router.getCurrentNavigation().extras);
+      console.log(router.getCurrentNavigation().extras.state);
+      this.navigationExtrasState = router.getCurrentNavigation().extras.state;
+    }
 
   ngOnInit() {
     this.form.get('parentType').valueChanges.subscribe(
@@ -62,6 +71,32 @@ export class TaskComponent implements OnInit {
         }
       }
     );
+
+    //on edit, fill up form using navigation extras state
+    if(this.navigationExtrasState) {
+
+      this.form.setValue({
+        projectId: this.navigationExtrasState.projectId, 
+        projectName: this.navigationExtrasState.projectName,
+        taskId: this.navigationExtrasState.taskId,
+        name: this.navigationExtrasState.name,
+        parentType: this.navigationExtrasState.parentType,
+        priority: this.navigationExtrasState.priority,
+        parentTaskId: this.navigationExtrasState.parentTaskId,
+        parentTaskName: this.navigationExtrasState.parentTaskName,
+        startDate: this.navigationExtrasState.startDate,
+        endDate: this.navigationExtrasState.endDate,
+        userId: this.navigationExtrasState.userId,
+        userName: this.navigationExtrasState.userName
+      });
+      //patch is required for fields which may be disabled
+      this.form.patchValue({
+        startDate: this.navigationExtrasState.startDate,
+        endDate: this.navigationExtrasState.endDate
+      });
+    }
+
+
   }
 
   openModal(modalId: string) {
@@ -101,19 +136,42 @@ export class TaskComponent implements OnInit {
 
     console.log(this.form.value);
 
-    this.taskService.createTask(this.form.value).subscribe(
-      () => {
-        console.log("Task created successfully");
-        this.resetForm();
-        this.status = { success: true, msg: "Task created successfully"};
-      },
+    if(this.form.controls.taskId.value > 0) { //update
 
-      (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
-        this.status = { success: false, msg: "Something went wrong..."};
-      }
+      this.taskService.updateTask(this.form.value).subscribe(
+        
+        () => {
+          console.log("Task update successfully");
+          this.resetForm();
+          this.status = { success: true, msg: "Task updated successfully"};
+        },
 
-    );
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+          this.status = { success: false, msg: "Something went wrong..."};
+        }
+
+      );
+
+    }
+
+    else {  //create
+
+      this.taskService.createTask(this.form.value).subscribe(
+        () => {
+          console.log("Task created successfully");
+          this.resetForm();
+          this.status = { success: true, msg: "Task created successfully"};
+        },
+
+        (error: HttpErrorResponse) => {
+          console.log(error.name + ' ' + error.message);
+          this.status = { success: false, msg: "Something went wrong..."};
+        }
+
+      );
+
+  }
 
   }
 

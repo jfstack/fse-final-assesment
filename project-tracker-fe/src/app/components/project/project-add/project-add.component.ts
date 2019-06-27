@@ -16,9 +16,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     projectId : new FormControl(-1),
     name : new FormControl('', Validators.required),
-    // startDate : new FormControl({value: '2019-06-23', disabled: true}, Validators.required),
     startDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[0], Validators.required),
-    // endDate : new FormControl({value: '2019-06-23', disabled: true}, Validators.required),
     endDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[1], Validators.required),
     priority : new FormControl(1, Validators.required),
     managerId : new FormControl(-1),
