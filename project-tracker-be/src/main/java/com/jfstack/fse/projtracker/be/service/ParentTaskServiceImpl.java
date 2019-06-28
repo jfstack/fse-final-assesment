@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service("parentService")
+@Service("parentTaskService")
 public class ParentTaskServiceImpl implements ParentTaskService {
 
     private ParentTaskRepository repository;
