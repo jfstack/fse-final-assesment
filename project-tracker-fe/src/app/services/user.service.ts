@@ -10,15 +10,22 @@ export class UserService {
   
   private baseUrl = 'http://localhost:8081/api/users';
 
+  blankUser = {
+    userId: -1,
+    firstName: '',
+    lastName: '',
+    employeeId: ''
+  };
+
   //This subject is used to refresh the list of users on new user addition
-  userListSubject = new BehaviorSubject<User>(new User(0, '', '', 0));
+  userListSubject = new BehaviorSubject<User>(this.blankUser);
   userListSubjectCast = this.userListSubject.asObservable();
 
   //This subject is used to refresh the list of users on deletion of an user
   refreshOnDeleteEvent = new BehaviorSubject<void>(null);
   refreshOnDeleteEventCast = this.refreshOnDeleteEvent.asObservable();
 
-  loadOnEditSubject = new BehaviorSubject<User>(new User(0, '', '', 0));
+  loadOnEditSubject = new BehaviorSubject<User>(this.blankUser);
   loadOnEditSubjectCast = this.loadOnEditSubject.asObservable();
 
   constructor(private http: HttpClient) { }
