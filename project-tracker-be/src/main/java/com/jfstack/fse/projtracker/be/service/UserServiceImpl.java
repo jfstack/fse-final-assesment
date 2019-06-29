@@ -1,16 +1,13 @@
 package com.jfstack.fse.projtracker.be.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.jfstack.fse.projtracker.be.entity.User;
+import com.jfstack.fse.projtracker.be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jfstack.fse.projtracker.be.dto.UserDto;
-import com.jfstack.fse.projtracker.be.entity.User;
-import com.jfstack.fse.projtracker.be.repository.UserRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

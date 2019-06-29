@@ -1,10 +1,9 @@
 package com.jfstack.fse.projtracker.be.service;
 
+import com.jfstack.fse.projtracker.be.entity.User;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.jfstack.fse.projtracker.be.dto.UserDto;
-import com.jfstack.fse.projtracker.be.entity.User;
 
 public interface UserService {
 

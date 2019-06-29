@@ -1,28 +1,26 @@
 package com.jfstack.fse.projtracker.be.service.test;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.jfstack.fse.projtracker.be.Dummy;
+import com.jfstack.fse.projtracker.be.entity.Task;
+import com.jfstack.fse.projtracker.be.repository.TaskRepository;
+import com.jfstack.fse.projtracker.be.service.TaskService;
+import com.jfstack.fse.projtracker.be.service.TaskServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.jfstack.fse.projtracker.be.Dummy;
-import com.jfstack.fse.projtracker.be.dto.UserDto;
-import com.jfstack.fse.projtracker.be.entity.Task;
-import com.jfstack.fse.projtracker.be.entity.User;
-import com.jfstack.fse.projtracker.be.repository.TaskRepository;
-import com.jfstack.fse.projtracker.be.service.TaskService;
-import com.jfstack.fse.projtracker.be.service.TaskServiceImpl;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class TaskServiceTest {
