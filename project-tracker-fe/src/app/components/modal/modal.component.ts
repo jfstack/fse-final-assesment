@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { TaskService } from '../../services/task.service';
 import { ParentTask } from '../../models/parent-task';
+import { LogService } from '../../services/log.service';
 
 @Component({
   selector: 'jw-modal',
@@ -59,28 +60,28 @@ export class ModalComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private projectService: ProjectService,
     private userService: UserService,
-    private taskService: TaskService) {
+    private taskService: TaskService, private logger: LogService) {
 
       this.element = el.nativeElement;
       this.records = [];
   }
 
   ngOnInit() {
-    console.log(`modal id: ${this.id}`);
-    console.log(`modal type: ${this.type}`);
+    this.logger.debug(`modal id: ${this.id}`);
+    this.logger.debug(`modal type: ${this.type}`);
     
 
     let modal = this;
 
     // ensure id attribute exists
     if (!this.id) {
-      console.error('modal must have an id');
+      this.logger.error('modal must have an id');
       return;
     }
 
     // ensure title attribute exists
     if (!this.type) {
-      console.error('modal must have a type');
+      this.logger.error('modal must have a type');
       return;
     }
 
@@ -113,7 +114,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   load() {
     if(this.type === 'Projects') {
-      console.log("Loading projects....");
+      this.logger.debug("Loading projects....");
 
       this.projectService.getProjects().subscribe(
         (data: ProjectDetails[]) => {
@@ -127,7 +128,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         },
 
         (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
+          this.logger.error(error.name + ' ' + error.message);
         }
 
       );
@@ -135,10 +136,10 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     if(this.type === 'ParentTasks') {
-      console.log("Loading parent tasks....");
+      this.logger.debug("Loading parent tasks....");
 
       let selectedProjectId = localStorage.getItem('selectedProjectId');
-      console.log("Selected project id:" + selectedProjectId);
+      this.logger.debug("Selected project id:" + selectedProjectId);
 
       if(selectedProjectId) {
         this.taskService.getParentTasks(selectedProjectId).subscribe(
@@ -153,7 +154,7 @@ export class ModalComponent implements OnInit, OnDestroy {
           },
 
           (error: HttpErrorResponse) => {
-            console.log(error.name + ' ' + error.message);
+            this.logger.error(error.name + ' ' + error.message);
           }
         );
 
@@ -162,7 +163,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     if(this.type === 'Users') {
-      console.log("Loading users....");
+      this.logger.debug("Loading users....");
+
       this.userService.getUsers().subscribe(
         (data: User[]) => {
           if(data) {
@@ -175,20 +177,20 @@ export class ModalComponent implements OnInit, OnDestroy {
         },
 
         (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
+          this.logger.error(error.name + ' ' + error.message);
         }
       );
     }
   }
 
   select(record: ModalRecord) {
-    console.log(record);
+    this.logger.debug("Selected record: ", record);
     this.selectedRecord = record;
   }
 
   choose() {
-    console.log("selected record:");
-    console.log(this.selectedRecord);
+    this.logger.debug("Emitting the selected record: ", this.selectedRecord);
+    
     this.onSelect.emit(this.selectedRecord);
     this.records = [];
   }

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProjectForm } from '../models/project-form';
 import { ProjectDetails } from '../models/project-details';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,11 @@ export class ProjectService {
   refreshProjectListEvent = new BehaviorSubject<void>(null);
   refreshProjectListEventCast = this.refreshProjectListEvent.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private logger: LogService) { }
 
   createProject(projectForm: ProjectForm) {
-    console.log("ProjectService.createProject");
-    console.log(projectForm);
+    this.logger.debug("ProjectService.createProject", projectForm);
+    
     
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -47,9 +48,8 @@ export class ProjectService {
   }
 
   updateProject(projectForm: ProjectForm) {
-    console.log("ProjectService.updateProject");
-    console.log(projectForm);
-    
+    this.logger.debug("ProjectService.updateProject", projectForm);
+      
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -58,7 +58,7 @@ export class ProjectService {
   }
 
   getProjects() {
-    console.log("ProjectService.getProjects");
+    this.logger.info("ProjectService.getProjects");
     return this.http.get<ProjectDetails[]>(this.baseUrl);
   }
 

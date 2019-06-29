@@ -7,6 +7,7 @@ import { ModalService } from '../../services/modal.service';
 import { IStatus } from '../../models/status';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LogService } from '../../services/log.service';
 
 
 @Component({
@@ -43,17 +44,17 @@ export class TaskComponent implements OnInit {
     private projectService: ProjectService,
     private modalService: ModalService,
     private taskService: TaskService,
-    private router: Router) { 
-      console.log("Navigation extras:");
-      console.log(router.getCurrentNavigation().extras);
-      console.log(router.getCurrentNavigation().extras.state);
+    private router: Router,
+    private logger: LogService) { 
+
+      this.logger.debug("Navigation extras:", router.getCurrentNavigation().extras.state);
       this.navigationExtrasState = router.getCurrentNavigation().extras.state;
     }
 
   ngOnInit() {
     this.form.get('parentType').valueChanges.subscribe(
       value => {
-        console.log("Value = " + value);
+        this.logger.debug("Value = " + value);
         if(value === true) {
           this.form.get('priority').disable();
           this.form.get('startDate').disable();
@@ -109,22 +110,21 @@ export class TaskComponent implements OnInit {
   }
 
   selectProjectFromModal(event) {
-    console.log("Event data");
-    console.log(event);
-    // this.form.controls['projectName'].setValue(event.name);
+    this.logger.debug("Event data: ", event);
+    
     this.form.patchValue({ projectId: event.id, projectName: event.name });
     localStorage.setItem("selectedProjectId", event.id);
   }
 
   selectParentTaskFromModal(event) {
-    console.log("Event data");
-    console.log(event);
+    this.logger.debug("Event data: ", event);
+    
     this.form.patchValue({ parentTaskId: event.id, parentTaskName: event.name });
   }
 
   selectUserFromModal(event) {
-    console.log("Event data");
-    console.log(event);
+    this.logger.debug("Event data: ", event);
+    
     this.form.patchValue({ userId: event.id, userName: event.name });
   }
 
@@ -134,20 +134,20 @@ export class TaskComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    this.logger.debug(this.form.value);
 
     if(this.form.controls.taskId.value > 0) { //update
 
       this.taskService.updateTask(this.form.value).subscribe(
         
         () => {
-          console.log("Task update successfully");
+          this.logger.debug("Task update successfully");
           this.resetForm();
           this.status = { success: true, msg: "Task updated successfully"};
         },
 
         (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
+          this.logger.error(error.name + ' ' + error.message);
           this.status = { success: false, msg: "Something went wrong..."};
         }
 
@@ -159,13 +159,13 @@ export class TaskComponent implements OnInit {
 
       this.taskService.createTask(this.form.value).subscribe(
         () => {
-          console.log("Task created successfully");
+          this.logger.debug("Task created successfully");
           this.resetForm();
           this.status = { success: true, msg: "Task created successfully"};
         },
 
         (error: HttpErrorResponse) => {
-          console.log(error.name + ' ' + error.message);
+          this.logger.error(error.name + ' ' + error.message);
           this.status = { success: false, msg: "Something went wrong..."};
         }
 

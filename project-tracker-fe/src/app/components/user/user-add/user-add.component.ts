@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'user-add',
@@ -27,7 +28,8 @@ export class UserAddComponent implements OnInit, OnDestroy {
   private loadOnEditSubjectSubscription: Subscription;
   private updateUserSubscription: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+      private logger: LogService) { }
 
   ngOnInit() {
     this.loadOnEditSubjectSubscription = 
@@ -48,7 +50,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
   }
 
   addUser() {
-    console.log(this.form.value);
+    this.logger.debug(this.form.value);
     
     if(this.form.invalid) {
       return;
@@ -64,13 +66,13 @@ export class UserAddComponent implements OnInit, OnDestroy {
           this.userService.updateUser(this.form.value)
               .subscribe(
                 data => {
-                  console.log("Data updated successfully:" + data);
+                  this.logger.debug("Data updated successfully:", data);
                   this.userService.castRefreshEvent();
                   this.resetForm();
                 },
 
                 (error: HttpErrorResponse) => {
-                  console.log(error.name + ' ' + error.message);
+                  this.logger.error(error.name + ' ' + error.message);
                 }
 
               );
@@ -81,13 +83,13 @@ export class UserAddComponent implements OnInit, OnDestroy {
           this.userService.createUser(this.form.value)
           .subscribe(
             data => {
-              console.log("Data saved successfully:" + data);
-              this.newUser = data; //not required
+              this.logger.debug("Data saved successfully:", data);
+              this.newUser = data; 
               this.userService.cast(this.newUser);
               this.resetForm();
             },
 
-            (error: HttpErrorResponse) => {console.log(error.name + ' ' + error.message);}
+            (error: HttpErrorResponse) => {this.logger.error(error.name + ' ' + error.message);}
           );
 
       }

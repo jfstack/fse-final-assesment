@@ -3,6 +3,7 @@ import { ProjectDetails } from '../../../models/project-details';
 import { ProjectService } from '../../../services/project.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'project-list',
@@ -17,7 +18,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   searchTerm: string;
 
-  constructor(private projectService: ProjectService) { 
+  constructor(private projectService: ProjectService,
+    private logger: LogService) { 
     this.projects = [];
   }
 
@@ -42,12 +44,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.projectListSubscription = 
         this.projectService.getProjects().subscribe(
           data => {
-            console.log("Project data: " + data);
+            this.logger.debug("Project data: ", data);
             this.projects = data;
           },
 
           (error: HttpErrorResponse) => {
-            console.log(error.name + ' ' + error.message);
+            this.logger.error(error.name + ' ' + error.message);
           }
         );
   }

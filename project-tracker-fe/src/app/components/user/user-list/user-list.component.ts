@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'user-list',
@@ -13,7 +14,8 @@ export class UserListComponent implements OnInit {
   users: Array<User>;
   searchTerm: string;
 
-  constructor(private userService: UserService) { 
+  constructor(private userService: UserService,
+    private logger: LogService) { 
     this.users = [];
   }
 
@@ -43,7 +45,7 @@ export class UserListComponent implements OnInit {
       },
 
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        this.logger.error(error.name + ' ' + error.message);
       }
     );
   }
@@ -52,7 +54,7 @@ export class UserListComponent implements OnInit {
     if(sortKey) {
 
       if(sortKey === 'fname') {
-        console.log("Sorting users using first name...");
+        this.logger.debug("Sorting users using first name...");
 
         if(this.users) {
           this.users.sort(
@@ -65,7 +67,7 @@ export class UserListComponent implements OnInit {
       }
 
       if(sortKey === 'lname') {
-        console.log("Sorting users using last name...");
+        this.logger.debug("Sorting users using last name...");
 
         if(this.users) {
           this.users.sort(
@@ -78,7 +80,7 @@ export class UserListComponent implements OnInit {
       }
 
       if(sortKey === 'empid') {
-        console.log("Sorting users using employee id...");
+        this.logger.debug("Sorting users using employee id...");
 
         if(this.users) {
           this.users.sort(

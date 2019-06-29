@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { startDateEndDateValidator } from '../../../validators/date.validator';
 import { ModalService } from 'src/app/services/modal.service';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'project-add',
@@ -30,15 +31,17 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   updateProjectSubscription: Subscription;
   loadProjectOnEditSubscription: Subscription;
 
-  constructor(private projectService: ProjectService, private modalService: ModalService) { 
+  constructor(private projectService: ProjectService, 
+    private modalService: ModalService,
+    private logger: LogService) { 
   }
 
   ngOnInit() {
     this.loadProjectOnEditSubscription = 
       this.projectService.loadProjectOnEditSubjectCast.subscribe(
         data => {
-          console.log(`start date: ${data.startDate}`);
-          console.log(`end date: ${data.endDate}`);
+          this.logger.debug(`start date: ${data.startDate}`);
+          this.logger.debug(`end date: ${data.endDate}`);
           this.form.setValue({
             projectId: data.projectId,
             name: data.project,
@@ -62,8 +65,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   }
 
   addProject() {
-    console.log("ProjectAddComponent.addProject");
-    console.log(this.form.getRawValue());
+    this.logger.info("ProjectAddComponent.addProject");
+    this.logger.debug(this.form.getRawValue());
     
     if(this.form.invalid) {
       return;
@@ -76,13 +79,13 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
           this.projectService.updateProject(this.form.getRawValue())
               .subscribe(
                   data => {
-                    console.log("Data updated successfully:" + data);
+                    this.logger.debug("Data updated successfully:", data);
                     this.projectService.castRefreshProjectListEvent();
                     this.resetForm();
                   },
 
                   (error: HttpErrorResponse) => {
-                    console.log(error.name + ' ' + error.message);
+                    this.logger.error(error.name + ' ' + error.message);
                   }
 
               );
@@ -92,12 +95,12 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
           this.projectService.createProject(this.form.getRawValue()).subscribe(
 
             (data) => {
-              console.log("Data saved successfully:");
+              this.logger.debug("Data saved successfully:");
               this.projectService.castProjectOnCreate(data);
               this.resetForm();
             },
 
-            (error: HttpErrorResponse) => {console.log(error.name + ' ' + error.message);}
+            (error: HttpErrorResponse) => {this.logger.error(error.name + ' ' + error.message);}
 
           );
       }
@@ -120,8 +123,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   }
 
   selectUserFromModal(event) {
-    console.log("Event data");
-    console.log(event);
+    this.logger.debug("Event data", event);
+    
     this.form.patchValue({ managerId: event.id, managerName: event.name });
   }
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TaskForm } from 'src/app/models/task-form';
 import { TaskService } from 'src/app/services/task.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'task-card',
@@ -14,7 +15,9 @@ export class TaskCardComponent implements OnInit {
 
   @Input() task: TaskDetails;
 
-  constructor(private router: Router, private taskService: TaskService) { }
+  constructor(private router: Router, 
+    private taskService: TaskService, 
+    private logger: LogService) { }
 
   ngOnInit() {
   }
@@ -40,7 +43,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   endTask(task: TaskDetails) {
-    console.log("endtask called");
+    
     let taskForm = {
       projectId: task.projectId,
       taskId: task.taskId,
@@ -56,12 +59,12 @@ export class TaskCardComponent implements OnInit {
 
     this.taskService.updateTask(taskForm).subscribe(
       () => {
-        console.log("Task update successfully");
+        this.logger.debug("Task update successfully");
         task.status = 'COMPLETED';
       },
 
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        this.logger.error(error.name + ' ' + error.message);
       }
     );
 

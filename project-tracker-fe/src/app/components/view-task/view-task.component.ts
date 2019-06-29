@@ -4,6 +4,7 @@ import { TaskService } from 'src/app/services/task.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TaskDetails } from 'src/app/models/task-details';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LogService } from '../../services/log.service';
 
 @Component({
   selector: 'app-view-task',
@@ -19,7 +20,9 @@ export class ViewTaskComponent implements OnInit {
 
   tasks: TaskDetails[];
 
-  constructor(private modalService: ModalService, private taskService: TaskService) { }
+  constructor(private modalService: ModalService, 
+    private taskService: TaskService,
+    private logger: LogService) { }
 
   ngOnInit() {
     this.tasks = [];
@@ -30,9 +33,8 @@ export class ViewTaskComponent implements OnInit {
   }
 
   selectProjectFromModal(event) {
-    console.log("Event data");
-    console.log(event);
-    // this.form.controls['projectName'].setValue(event.name);
+    this.logger.debug("Event data: ", event);
+    
     this.form.patchValue({ projectId: event.id, projectName: event.name });
     
     this.taskService.getTasks(event.id).subscribe(
@@ -47,7 +49,7 @@ export class ViewTaskComponent implements OnInit {
       },
 
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        this.logger.error(error.name + ' ' + error.message);
       }
     );
 

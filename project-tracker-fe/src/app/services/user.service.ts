@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
     userId: -1,
     firstName: '',
     lastName: '',
-    employeeId: ''
+    employeeId: 0
   };
 
   //This subject is used to refresh the list of users on new user addition
@@ -28,13 +29,12 @@ export class UserService {
   loadOnEditSubject = new BehaviorSubject<User>(this.blankUser);
   loadOnEditSubjectCast = this.loadOnEditSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private logger: LogService) { }
 
 
   createUser(user: User) {
-    console.log("UserService.createUser");
-    console.log(user);
-    
+    this.logger.debug("UserService.createUser", user);
+      
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -44,7 +44,7 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    console.log("UserService.updateUser");
+    this.logger.info("UserService.updateUser");
     
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -55,13 +55,13 @@ export class UserService {
   }
 
   getUsers() {
-    console.log("UserService.getUsers");
+    this.logger.info("UserService.getUsers");
     return this.http.get<User[]>(this.baseUrl);
   }
 
   deleteUser(employeeId: number) {
-    console.log("UserService.deleteUser");
-    console.log("Employee ID to be deleted" + employeeId);
+    this.logger.info("UserService.deleteUser");
+    this.logger.debug("Employee ID to be deleted" + employeeId);
     return this.http.delete<void>(`${this.baseUrl}/${employeeId}`);
   }
 
