@@ -1,27 +1,26 @@
 package com.jfstack.fse.projtracker.be.service.test;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
+import com.jfstack.fse.projtracker.be.Dummy;
+import com.jfstack.fse.projtracker.be.entity.User;
+import com.jfstack.fse.projtracker.be.repository.UserRepository;
+import com.jfstack.fse.projtracker.be.service.UserService;
+import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-
-import static org.mockito.Mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.jfstack.fse.projtracker.be.Dummy;
-import com.jfstack.fse.projtracker.be.dto.UserDto;
-import com.jfstack.fse.projtracker.be.entity.User;
-import com.jfstack.fse.projtracker.be.repository.UserRepository;
-import com.jfstack.fse.projtracker.be.service.UserService;
-import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)public class UserServiceTest {
 	
@@ -61,7 +60,17 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 		assertThat(actual.get().getFirstName()).isEqualTo("Chandan");
 		
 	}
-	
+
+	@Test
+	public void whenNullEmpId_thenReturnEmpty() {
+
+		Optional<User> actual = userService.getUserByEmployeeId(null);
+
+		assertThat(actual).isEmpty();
+		assertThat(actual.isPresent()).isFalse();
+
+	}
+
 	@Test
 	public void whenGetAllUsers_thenAllUsersShouldBeFound() {
 		
@@ -78,8 +87,7 @@ import com.jfstack.fse.projtracker.be.service.UserServiceImpl;
 	public void whenAddNewUser_thenUserShouldBeSaved() {
 		
 		User entity = Dummy.createUser();
-//		UserDto dto = Dummy.wrapUserInDto(entity);
-		
+
 		userService.addUser(entity);
 		
 		ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);

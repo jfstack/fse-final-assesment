@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jfstack.fse.projtracker.be.dto.TaskDto;
 import com.jfstack.fse.projtracker.be.entity.Task;
 import com.jfstack.fse.projtracker.be.repository.TaskRepository;
 

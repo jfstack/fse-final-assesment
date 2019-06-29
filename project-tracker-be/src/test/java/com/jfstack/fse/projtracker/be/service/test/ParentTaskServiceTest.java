@@ -60,6 +60,10 @@ public class ParentTaskServiceTest {
 
         when(parentTaskRepository.findById(100L)).thenReturn(Optional.of(task1));
 
+        Long projectId = 202L;
+        when(parentTaskRepository.findAllByProject_ProjectId(projectId))
+                .thenReturn(taskList);
+
     }
 
     @Test
@@ -188,4 +192,11 @@ public class ParentTaskServiceTest {
     }
 
 
+    @Test
+    public void givenProject_whenGetAllParentTaskByProject_thenReturnList() {
+        List<ParentTask> actual = parentTaskService.getAllParentTasksByProject(202L);
+
+        assertThat(actual).isNotEmpty();
+        assertThat(actual.size()).isEqualTo(2);
+    }
 }

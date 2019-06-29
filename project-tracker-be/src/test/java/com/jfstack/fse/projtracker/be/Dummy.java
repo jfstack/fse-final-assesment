@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.jfstack.fse.projtracker.be.dto.ProjectForm;
+import com.jfstack.fse.projtracker.be.dto.TaskForm;
 import com.jfstack.fse.projtracker.be.dto.UserDto;
 import com.jfstack.fse.projtracker.be.dto.UserForm;
 import com.jfstack.fse.projtracker.be.entity.ParentTask;
@@ -93,14 +94,14 @@ public class Dummy {
         return user;
     }
     
-    public static UserDto wrapUserInDto(User entity) {
-        UserDto user = new UserDto();
-        user.setEmployeeId(entity.getEmployeeId());
-        user.setFirstName(entity.getFirstName());
-        user.setLastName(entity.getLastName());
-
-        return user;
-    }
+//    public static UserDto wrapUserInDto(User entity) {
+//        UserDto user = new UserDto();
+//        user.setEmployeeId(entity.getEmployeeId());
+//        user.setFirstName(entity.getFirstName());
+//        user.setLastName(entity.getLastName());
+//
+//        return user;
+//    }
     
     public static List<User> createUserList() {
         User chandan = new User();
@@ -138,5 +139,33 @@ public class Dummy {
     	
     	return uform;
     	
+    }
+
+    public static TaskForm createParentTaskForm() {
+        TaskForm taskForm = new TaskForm();
+        taskForm.setName("parent-task1");
+        taskForm.setParentType("true");
+
+        return taskForm;
+    }
+
+    public static TaskForm createTaskForm() {
+        TaskForm taskForm = createParentTaskForm();
+        taskForm.setParentType("false");
+        taskForm.setParentTaskId(700L);
+        taskForm.setStartDate(LocalDate.now());
+        taskForm.setEndDate(LocalDate.now().plusDays(1));
+        taskForm.setStatus("OPEN");
+        taskForm.setUserId(208066);
+
+
+        return taskForm;
+    }
+
+    public static TaskForm createTaskWithoutOwner() {
+        TaskForm taskForm = createTaskForm();
+        taskForm.setUserId(null);
+
+        return taskForm;
     }
 }

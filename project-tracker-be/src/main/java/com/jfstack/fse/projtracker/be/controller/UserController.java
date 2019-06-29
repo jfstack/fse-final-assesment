@@ -3,6 +3,8 @@ package com.jfstack.fse.projtracker.be.controller;
 import com.jfstack.fse.projtracker.be.dto.UserForm;
 import com.jfstack.fse.projtracker.be.entity.User;
 import com.jfstack.fse.projtracker.be.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private UserService userService;
 
@@ -25,8 +29,9 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addUser(@RequestBody UserForm userForm) {
-        //check if user already exists using employee id
+        logger.info("addUser(ENTER)");
 
+        //check if user already exists using employee id
         Optional<User> found = this.userService.getUserByEmployeeId(userForm.getEmployeeId());
 
         HttpHeaders headers = new HttpHeaders();
@@ -43,11 +48,13 @@ public class UserController {
 
         user = this.userService.addUser(user);
 
+        logger.info("addUser(EXIT)");
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> getUsers() {
+        logger.info("getUsers(ENTER)");
 
         Optional<List<User>> allUsers = this.userService.getAllUsers();
 
@@ -55,6 +62,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
+        logger.info("getUsers(EXIT)");
         return new ResponseEntity<>(allUsers.get(), HttpStatus.OK);
     }
 
@@ -64,9 +72,9 @@ public class UserController {
     public ResponseEntity<User> updateUser(
             @PathVariable("userId") Integer userId,
             @RequestBody UserForm userForm ) {
+        logger.info("updateUser(ENTER)");
 
         //check if user already exists
-
         Optional<User> found = this.userService.getUserByEmployeeId(userForm.getEmployeeId());
 
         HttpHeaders headers = new HttpHeaders();
@@ -82,13 +90,15 @@ public class UserController {
 
         this.userService.updateUser(user);
 
+        logger.info("updateUser(EXIT)");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") Integer userId) {
-        //check if user already exists
+        logger.info("deleteUser(ENTER)");
 
+        //check if user already exists
         Optional<User> found = this.userService.getUserByEmployeeId(userId);
 
         if(!found.isPresent()) {
@@ -97,6 +107,7 @@ public class UserController {
 
         this.userService.deleteUser(found.get().getUserId());
 
+        logger.info("deleteUser(EXIT)");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

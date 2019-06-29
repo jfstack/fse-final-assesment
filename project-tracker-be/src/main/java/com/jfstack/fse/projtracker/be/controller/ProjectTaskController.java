@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectTaskController {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private TaskService taskService;
     
@@ -50,13 +54,14 @@ public class ProjectTaskController {
     
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Project>> getAllProjects() {
-    	
+    	logger.info("getAllProjects(ENTER)");
     	Optional<List<Project>> allProjects = this.projectService.getAllProjects();
-    	
+
     	if(!allProjects.isPresent()) {
     		return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
     	}
-    	
+
+    	logger.info("getAllProjects(EXIT)");
     	return new ResponseEntity<>(allProjects.get(), HttpStatus.OK);
     }
     
@@ -64,28 +69,30 @@ public class ProjectTaskController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> addProject(
     		@RequestBody ProjectForm projectForm) {
-    	
+    	logger.info("addProject(ENTER)");
+
     	Project project = new Project();
     	project.setProject(projectForm.getName());
     	project.setStartDate(projectForm.getStartDate());
     	project.setEndDate(projectForm.getEndDate());
     	project.setPriority(projectForm.getPriority());
-    	
+
     	Optional<User> found = this.userService.getUserByEmployeeId(projectForm.getManagerId());
-    	
+
     	if(!found.isPresent()) {
-    		throw new RuntimeException();
+    		throw new RuntimeException("User not found");
     	}
-    	
+
     	User user = found.get();
     	user.setProject(project);
-    	
+
     	project.setManager(user);
     	project = this.projectService.addProject(project);
-    	
-    	
+
+
     	HttpHeaders headers = new HttpHeaders();
-    	
+
+    	logger.info("addProject(EXIT)");
     	return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
     
@@ -94,59 +101,63 @@ public class ProjectTaskController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> updateProject(
     		@PathVariable("projectId") Long projectId, @RequestBody ProjectForm projectForm) {
-    	
+    	logger.info("updateProject(ENTER)");
+
     	Optional<Project> found = this.projectService.getProjectById(projectId);
     	if(!found.isPresent()) {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
-    	
-    	
+
+
     	Project project = found.get();
-    	
+
     	if(project.getManager().getEmployeeId() != projectForm.getManagerId()) {
     		Optional<User> userFound = this.userService.getUserByEmployeeId(projectForm.getManagerId());
     		if(userFound.isPresent()) {
     			project.setManager(userFound.get());
     		}
     	}
-    	
+
     	project.setProject(projectForm.getName());
     	project.setStartDate(projectForm.getStartDate());
     	project.setEndDate(projectForm.getEndDate());
     	project.setPriority(projectForm.getPriority());
-    	
+
     	this.projectService.updateProject(project);
-    	
+
+    	logger.info("updateProject(EXIT)");
     	return new ResponseEntity<>(project, HttpStatus.OK);
-    	
+
     }
 
-    @PatchMapping(value = "/{projectId}")
-    public ResponseEntity<Void> suspendProject(@PathVariable("projectId") Long projectId) {
-
-    	Optional<Project> found = this.projectService.getProjectById(projectId);
-		if(!found.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		//introduce a new field in project called status
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+//    @PatchMapping(value = "/{projectId}")
+//    public ResponseEntity<Void> suspendProject(@PathVariable("projectId") Long projectId) {
+//
+//    	Optional<Project> found = this.projectService.getProjectById(projectId);
+//		if(!found.isPresent()) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//
+//		//introduce a new field in project called status
+//		return new ResponseEntity<>(HttpStatus.OK);
+//	}
     
 
 	@GetMapping(value = "/{projectId}/tasks",
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Task>> getAllTasks(@PathVariable("projectId") Long projectId) {
-    	
+    	logger.info("getAllTasks(ENTER)");
+
     	Optional<List<Task>> allTasks = taskService.getAllTasksByProject(projectId);
-    	
+
     	HttpHeaders headers = new HttpHeaders();
     	headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-    	
+
     	if(!allTasks.isPresent()) {
     		return new ResponseEntity<>(new ArrayList<>(), headers, HttpStatus.NO_CONTENT);
     	}
-    	
+
+    	logger.info("getAllTasks(EXIT)");
     	return new ResponseEntity<>(allTasks.get(), headers, HttpStatus.OK);
     	
     }
@@ -156,6 +167,7 @@ public class ProjectTaskController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ParentTask>> getAllParentTasks(
     		@PathVariable("projectId") Long projectId) {
+		logger.info("getAllParentTasks(ENTER)");
 
 		List<ParentTask> allParentTasks =
 				parentTaskService.getAllParentTasksByProject(projectId);
@@ -167,6 +179,7 @@ public class ProjectTaskController {
     		return new ResponseEntity<>(new ArrayList<>(), headers, HttpStatus.NO_CONTENT);
     	}
 
+		logger.info("getAllParentTasks(EXIT)");
     	return new ResponseEntity<>(allParentTasks, headers, HttpStatus.OK);
 
     }
@@ -177,18 +190,20 @@ public class ProjectTaskController {
     public ResponseEntity<Task> getTaskById(
     		@PathVariable("projectId") Long projectId,
     		@PathVariable("taskId") Long taskId ) {
-    	
+    	logger.info("getTaskById(ENTER)");
+
     	Optional<Task> found = taskService.getTaskById(taskId);
-    	
+
     	HttpHeaders headers = new HttpHeaders();
     	headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-    	
+
     	if(!found.isPresent()) {
-    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
-    	
+
+    	logger.info("getTaskById(EXIT)");
     	return new ResponseEntity<>(found.get(), headers, HttpStatus.OK);
-    	
+
     }
     
     @PostMapping(value = "/{projectId}/tasks",
@@ -198,38 +213,39 @@ public class ProjectTaskController {
     		@PathVariable("projectId") Long projectId,
             @RequestBody TaskForm taskForm/*,
             UriComponentsBuilder ucBuilder*/) {
+		logger.info("addTask(ENTER)");
 
-		System.out.println("task form:" + taskForm.toString());
-    	System.out.println("projectId:" + taskForm.getProjectId());
-    	System.out.println("name:" + taskForm.getName());
-    	System.out.println("isParent:" + taskForm.isParent());
-    	
+		logger.debug("task form:" + taskForm.toString());
+    	logger.debug("projectId:" + taskForm.getProjectId());
+    	logger.debug("name:" + taskForm.getName());
+    	logger.debug("isParent:" + taskForm.isParent());
+
     	Optional<Project> found = this.projectService.getProjectById(projectId);
-    	
+
     	if(!found.isPresent())
-    		throw new RuntimeException();
-    	
+    		throw new RuntimeException("Project not found");
+
     	Project project = found.get();
-    	
+
     	if(taskForm.isParent()) {
-    		
+
     		ParentTask parentTask = new ParentTask();
     		parentTask.setParentTask(taskForm.getName());
     		parentTask.setProject(project);
     		this.parentTaskService.addParentTask(parentTask);
-    		
+
     	} else {
-    	
+
 	    	User owner = null;
 	    	if(taskForm.getUserId() != null) {
 		    	Optional<User> userFound = this.userService.getUserByEmployeeId(taskForm.getUserId());
 		    	if(!userFound.isPresent()) {
-		    		throw new RuntimeException();
+		    		throw new RuntimeException("User not found");
 		    	}
 		    	owner = userFound.get();
 	    	}
-	    	
-	    	
+
+
 	    	Task task = new Task();
 	    	task.setTask(taskForm.getName());
 	    	task.setStartDate(taskForm.getStartDate());
@@ -237,30 +253,31 @@ public class ProjectTaskController {
 	    	task.setPriority(taskForm.getPriority());
 	    	task.setStatus("OPEN");
 	    	task.setOwner(owner);
-	    	
+
 	    	owner.setTask(task);
 	    	project.addTask(task);
 	    	task.setProject(project);
-	    	
+
 	    	if(taskForm.getParentTaskId() != null) {
 	    		Optional<ParentTask> parentTaskFound = this.parentTaskService.getParentTaskById(taskForm.getParentTaskId());
 	    		task.setParentTask(parentTaskFound.orElse(null));
-	    		
+
 	    	}
-	    	
+
 	    	this.projectService.updateProject(project);
-    	
+
     	}
-    	
+
     	HttpHeaders headers = new HttpHeaders();
     	headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
     	/*headers.setLocation(
                 ucBuilder.path("/api/tasks/{id}")
                         .buildAndExpand(task.getTaskId())
                         .toUri());*/
-        
+
+		logger.info("addTask(EXIT)");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    	
+
     }
     
 
@@ -274,77 +291,81 @@ public class ProjectTaskController {
             @PathVariable("taskId") Long taskId,
             @RequestBody TaskForm taskForm) {
     	
-    	
+    	logger.info("updateTask(ENTER)");
+
     	Optional<Task> found = taskService.getTaskById(taskId);
-    	
+
     	if (!found.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    	
+
     	Task task = found.get();
     	task.setTask(taskForm.getName());
     	task.setStartDate(taskForm.getStartDate());
     	task.setEndDate(taskForm.getEndDate());
     	task.setPriority(taskForm.getPriority());
     	task.setStatus(taskForm.getStatus());
-    	
-    	if(taskForm.getUserId() != null && 
-    			( task.getOwner() == null || 
+
+    	if(taskForm.getUserId() != null &&
+    			( task.getOwner() == null ||
     	    			task.getOwner().getEmployeeId() != taskForm.getUserId()) ) {
-    		
+
 	    	Optional<User> userFound = this.userService.getUserByEmployeeId(taskForm.getUserId());
-	    	
+
 	    	if(!userFound.isPresent()) {
-	    		throw new RuntimeException();
+	    		throw new RuntimeException("User not found");
 	    	}
-	    	
+
 	    	task.setOwner(userFound.get());
-    		
+
     	}
-    	
+
     	if(taskForm.getParentTaskId() != null) {
     		Optional<ParentTask> parentTaskFound = this.parentTaskService.getParentTaskById(taskForm.getParentTaskId());
     		task.setParentTask(parentTaskFound.orElse(null));
-    		
+
     	}
-    	
+
     	taskService.updateTask(task);
-    	
-    	return new ResponseEntity<>(HttpStatus.OK); 
-    	
+
+    	logger.info("updateTask(EXIT)");
+    	return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @DeleteMapping(value = "/{projectId}/tasks/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable("taskId") Long taskId) {
-    	
+    	logger.info("deleteTask(ENTER)");
+
     	Optional<Task> found = taskService.getTaskById(taskId);
-    	
+
     	if (!found.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    	
+
     	taskService.deleteTask(taskId);
-    	
+
+    	logger.info("deleteTask(EXIT)");
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	
     	
     }
-
-    @PatchMapping(value = "/{projectId}/tasks/{taskId}")
-    public ResponseEntity<Void> endTask(@PathVariable("taskId") Long taskId) {
-
-		Optional<Task> found = taskService.getTaskById(taskId);
-
-		if (!found.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		Task task = found.get();
-		task.setStatus("COMPLETED");
-		taskService.updateTask(task);
-
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-	}
+//
+//    @PatchMapping(value = "/{projectId}/tasks/{taskId}")
+//    public ResponseEntity<Void> endTask(@PathVariable("taskId") Long taskId) {
+//
+//		Optional<Task> found = taskService.getTaskById(taskId);
+//
+//		if (!found.isPresent()) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//
+//		Task task = found.get();
+//		task.setStatus("COMPLETED");
+//		taskService.updateTask(task);
+//
+//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//
+//	}
 
 }
