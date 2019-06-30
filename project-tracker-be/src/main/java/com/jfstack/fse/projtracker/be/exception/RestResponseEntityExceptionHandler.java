@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
-    protected ResponseEntity<Object> handleError(IllegalArgumentException ex, WebRequest req) {
+    public ResponseEntity<Object> handleError(IllegalArgumentException ex, WebRequest req) {
         return super.handleExceptionInternal(
                 ex,
                 ex.getMessage(),
@@ -23,7 +23,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     @ExceptionHandler(value = {RuntimeException.class})
-    protected ResponseEntity<Object> handleError(RuntimeException ex, WebRequest req) {
+    public ResponseEntity<Object> handleError(RuntimeException ex, WebRequest req) {
         return super.handleExceptionInternal(
                 ex,
                 ex.getMessage(),

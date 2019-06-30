@@ -89,6 +89,17 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         
       }
 
+      if(sortKey === 'status') {
+        if(this.projects) {
+          this.projects.sort(
+            (p1, p2) => {
+              return p1.status < p2.status ? -1 : p1.status > p2.status ? 1 : 0;
+            }
+          );
+        }
+        
+      }
+
     }
   }
 
