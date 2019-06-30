@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConfig } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,30 @@ export class LogService {
   level: LogLevel = LogLevel.OFF;
   logWithDate: boolean = true;
 
-  constructor() { }
+  constructor() { 
+    switch(AppConfig.logginLevel) {
+      case 'OFF': {
+        this.level = LogLevel.OFF;
+        break;
+      }
+      case 'INFO': {
+        this.level = LogLevel.INFO;
+        break;
+      }
+      case 'DEBUG': {
+        this.level = LogLevel.DEBUG;
+        break;
+      }
+      case 'ERROR': {
+        this.level = LogLevel.ERROR;
+        break;
+      }
+      default: {
+        this.level = LogLevel.OFF;
+        break;
+      }
+    }
+  }
 
   debug(msg: string, ...optionalParams: any[]) {
     this.writeToLog(msg, LogLevel.DEBUG,
