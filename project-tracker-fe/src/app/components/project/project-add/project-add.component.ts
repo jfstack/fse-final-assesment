@@ -7,6 +7,7 @@ import { startDateEndDateValidator } from '../../../validators/date.validator';
 import { ModalService } from 'src/app/services/modal.service';
 import { LogService } from '../../../services/log.service';
 import { ProjectForm } from '../../../models/project-form';
+import { IStatus } from '../../../models/status';
 
 @Component({
   selector: 'project-add',
@@ -31,6 +32,8 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
   createProjectSubscription: Subscription;
   updateProjectSubscription: Subscription;
   loadProjectOnEditSubscription: Subscription;
+
+  status: IStatus;
 
   constructor(private projectService: ProjectService, 
     private modalService: ModalService,
@@ -86,10 +89,12 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
                     this.logger.debug("Data updated successfully:", data);
                     this.projectService.castRefreshProjectListEvent();
                     this.resetForm();
+                    this.status = { success: true, msg: "Project update successfully"};
                   },
 
                   (error: HttpErrorResponse) => {
                     this.logger.error(error.name + ' ' + error.message);
+                    this.status = { success: false, msg: "Something went wrong..."};
                   }
 
               );
@@ -102,9 +107,13 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
               this.logger.debug("Data saved successfully:");
               this.projectService.castProjectOnCreate(data);
               this.resetForm();
+              this.status = { success: true, msg: "Project created successfully"};
             },
 
-            (error: HttpErrorResponse) => {this.logger.error(error.name + ' ' + error.message);}
+            (error: HttpErrorResponse) => {
+              this.logger.error(error.name + ' ' + error.message);
+              this.status = { success: false, msg: "Something went wrong..."};
+            }
 
           );
       }

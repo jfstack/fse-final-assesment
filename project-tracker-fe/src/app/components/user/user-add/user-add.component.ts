@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
 import { LogService } from '../../../services/log.service';
+import { IStatus } from '../../../models/status';
 
 @Component({
   selector: 'user-add',
@@ -24,6 +25,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
   enableUpdateButton = false;
   submitMessage: string;
   newUser: User;
+  status: IStatus;
 
   private userSubscription: Subscription;
   private loadOnEditSubjectSubscription: Subscription;
@@ -71,10 +73,12 @@ export class UserAddComponent implements OnInit, OnDestroy {
                   this.logger.debug("Data updated successfully:", data);
                   this.userService.castRefreshEvent();
                   this.resetForm();
+                  this.status = { success: true, msg: "User updated successfully"};
                 },
 
                 (error: HttpErrorResponse) => {
                   this.logger.error(error.name + ' ' + error.message);
+                  this.status = { success: false, msg: "Something went wrong..."};
                 }
 
               );
@@ -89,9 +93,13 @@ export class UserAddComponent implements OnInit, OnDestroy {
               this.newUser = data; 
               this.userService.cast(this.newUser);
               this.resetForm();
+              this.status = { success: true, msg: "User created successfully"};
             },
 
-            (error: HttpErrorResponse) => {this.logger.error(error.name + ' ' + error.message);}
+            (error: HttpErrorResponse) => {
+              this.logger.error(error.name + ' ' + error.message);
+              this.status = { success: false, msg: "Something went wrong..."};
+            }
           );
 
       }
