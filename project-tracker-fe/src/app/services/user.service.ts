@@ -3,13 +3,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { User } from '../models/user';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { LogService } from './log.service';
+import { AppConfig } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   
-  private baseUrl = 'http://localhost:8081/api/users';
+  private baseUrl = AppConfig.apiBaseUrl_Users;
 
   blankUser = {
     userId: -1,
@@ -50,7 +51,7 @@ export class UserService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    return this.http.put<User>(`${this.baseUrl}/${user.employeeId}`, user);
+    return this.http.put<User>(`${this.baseUrl}/${user.userId}`, user);
 
   }
 

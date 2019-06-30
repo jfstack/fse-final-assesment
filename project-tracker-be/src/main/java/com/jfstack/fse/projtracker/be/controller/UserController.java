@@ -70,12 +70,12 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateUser(
-            @PathVariable("userId") Integer userId,
+            @PathVariable("userId") Long userId,
             @RequestBody UserForm userForm ) {
         logger.info("updateUser(ENTER)");
 
         //check if user already exists
-        Optional<User> found = this.userService.getUserByEmployeeId(userForm.getEmployeeId());
+        Optional<User> found = this.userService.getUserById(userId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
@@ -87,6 +87,7 @@ public class UserController {
         User user = found.get();
         user.setFirstName(userForm.getFirstName());
         user.setLastName(userForm.getLastName());
+        user.setEmployeeId(userForm.getEmployeeId());
 
         this.userService.updateUser(user);
 

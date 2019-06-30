@@ -17,7 +17,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleError(IllegalArgumentException ex, WebRequest req) {
         return super.handleExceptionInternal(
                 ex,
-                "Bad request",
+                ex.getMessage(),
                 new HttpHeaders(),
                 HttpStatus.BAD_REQUEST, req);
     }

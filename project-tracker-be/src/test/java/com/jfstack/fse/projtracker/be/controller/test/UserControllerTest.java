@@ -98,11 +98,12 @@ public class UserControllerTest {
 		userForm.setLastName("Roy");
 		String jsonTask = toJson(userForm);
 
-		when(userService.getUserByEmployeeId(userForm.getEmployeeId()))
+		Long userId = 322L;
+		when(userService.getUserById(userId))
 				.thenReturn(Optional.of(Dummy.createUser()));
 
 
-		mockMvc.perform( put("/api/users/"+userForm.getEmployeeId())
+		mockMvc.perform( put("/api/users/"+userId)
 							.content(jsonTask)
 							.contentType(MediaType.APPLICATION_JSON_VALUE) )
 				.andExpect(status().isOk())

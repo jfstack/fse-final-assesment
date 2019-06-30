@@ -6,6 +6,12 @@ export const environment = {
   production: false
 };
 
+export const AppConfig = {
+  apiBaseUrl_Users: 'http://localhost:8081/api/users',
+  apiBaseUrl_Projects: 'http://localhost:8081/api/projects',
+  logginLevel: 'OFF'
+}
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

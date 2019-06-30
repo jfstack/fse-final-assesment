@@ -42,7 +42,8 @@ import static org.mockito.Mockito.when;
 	public void setup() {
 		User chandan = Dummy.createUser();
 		when(userRepository.findByEmployeeId(208066)).thenReturn(Optional.of(chandan));
-		
+		when(userRepository.findById(208066L)).thenReturn(Optional.of(chandan));
+
 		List<User> userList = Dummy.createUserList();
 		when(userRepository.findAll()).thenReturn(userList);
 		
@@ -59,6 +60,18 @@ import static org.mockito.Mockito.when;
 		assertThat(actual.get()).isInstanceOf(User.class);
 		assertThat(actual.get().getFirstName()).isEqualTo("Chandan");
 		
+	}
+
+	@Test
+	public void whenValidUserId_thenUserShouldBeFound() {
+
+		Optional<User> actual = userService.getUserById(208066L);
+
+		assertThat(actual).isNotEmpty();
+		assertThat(actual.isPresent()).isTrue();
+		assertThat(actual.get()).isInstanceOf(User.class);
+		assertThat(actual.get().getFirstName()).isEqualTo("Chandan");
+
 	}
 
 	@Test

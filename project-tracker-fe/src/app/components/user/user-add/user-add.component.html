@@ -1,5 +1,7 @@
 
 <form [formGroup]="form" (ngSubmit)="addUser()" class="form-horizontal">
+    <input type="hidden" formControlName="userId">
+
     <div class="form-group">
       <label for="inputFirstName" class="col-sm-2 control-label">First Name</label>
       <div class="col-sm-8">

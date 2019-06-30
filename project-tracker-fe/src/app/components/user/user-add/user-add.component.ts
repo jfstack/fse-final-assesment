@@ -14,6 +14,7 @@ import { LogService } from '../../../services/log.service';
 export class UserAddComponent implements OnInit, OnDestroy {
 
   form = new FormGroup({
+    userId: new FormControl(-1),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     employeeId: new FormControl('', Validators.required)
@@ -36,6 +37,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
       this.userService.loadOnEditSubjectCast.subscribe(
         data => {
           this.form.setValue({
+            userId: data.userId,
             firstName: data.firstName, 
             lastName: data.lastName, 
             employeeId: data.employeeId

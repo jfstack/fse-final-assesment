@@ -4,13 +4,15 @@ import { TaskForm } from '../models/task-form';
 import { ParentTask } from '../models/parent-task';
 import { TaskDetails } from 'src/app/models/task-details';
 import { LogService } from './log.service';
+import { AppConfig } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private baseUrl = 'http://localhost:8081/api/projects';
+  private baseUrl = AppConfig.apiBaseUrl_Projects;
 
   constructor(private http: HttpClient, private logger: LogService) { }
 

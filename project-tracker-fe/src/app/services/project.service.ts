@@ -4,13 +4,15 @@ import { ProjectForm } from '../models/project-form';
 import { ProjectDetails } from '../models/project-details';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { LogService } from './log.service';
+import { AppConfig } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  private baseUrl = 'http://localhost:8081/api/projects';
+  private baseUrl = AppConfig.apiBaseUrl_Projects;
 
   blankProjectDetail = {
     projectId: -1,

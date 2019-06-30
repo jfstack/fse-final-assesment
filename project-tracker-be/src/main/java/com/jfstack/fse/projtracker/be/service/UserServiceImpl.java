@@ -31,8 +31,13 @@ public class UserServiceImpl implements UserService {
 		
 		return user;
 	}
-	
-	@Override
+
+    @Override
+    public Optional<User> getUserById(Long userId) {
+        return repository.findById(userId);
+    }
+
+    @Override
 	@Transactional(readOnly = true)
 	public Optional<List<User>> getAllUsers() {
 		List<User> allusers = repository.findAll();
@@ -66,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		if(user == null)
 			throw new IllegalArgumentException("user data is null");
 		
-		if(user.getUserId() == null)
+		if(user.getUserId() == null || user.getUserId() < 0)
 			throw new IllegalArgumentException("user id is null");
 		
 		Optional<User> found = repository.findById(user.getUserId());
