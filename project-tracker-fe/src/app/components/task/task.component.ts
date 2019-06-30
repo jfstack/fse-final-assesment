@@ -37,6 +37,7 @@ export class TaskComponent implements OnInit {
   // selectedUser: string;
 
   status: IStatus;
+  title = "Task";
 
   navigationExtrasState;
 
