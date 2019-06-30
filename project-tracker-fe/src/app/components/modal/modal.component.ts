@@ -15,7 +15,7 @@ import { LogService } from '../../services/log.service';
   template:
     `<div class="jw-modal">
       <div class="jw-modal-body">
-        <h3>{{title}}</h3>
+        <h3 class="text-center">{{title}}</h3>
         <div class="container">
           <button type="button" class="btn btn-sm btn-primary" (click)="load()">Load {{type}}</button>
           <table class="table">
@@ -35,8 +35,10 @@ import { LogService } from '../../services/log.service';
             </tbody>
           </table>
         </div>
-        <button type="button" class="btn btn-sm btn-primary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-sm btn-success" (click)="choose(); close()">Choose</button>
+        <div class="row text-center">
+          <button type="button" class="btn btn-sm btn-primary" style="margin-right: 5px;" (click)="close()">Close</button>
+          <button type="button" class="btn btn-sm btn-success" (click)="choose(); close()">Choose</button>
+        </div>
       </div>
     </div>
     <div class="jw-modal-background"></div>`,
