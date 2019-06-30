@@ -1,18 +1,18 @@
 <div class="row">
     <div class="col-sm-3"><input type="text" [(ngModel)]="searchTerm" placeholder="Search..."></div>
     
-    <div class="col-sm-1">Sort:</div>
-    <div class="col-sm-1">
-      <button type="button" class="btn btn-sm btn-info" (click)="sortProjectBy('startdate')">Start Date</button>
+    <div class="col-sm-1"><h4>Sort:</h4></div>
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortProjectBy('startdate')">Start Date</button>
     </div>
-    <div class="col-sm-1">
-        <button type="button" class="btn btn-sm btn-info" (click)="sortProjectBy('enddate')">End Date</button>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortProjectBy('enddate')">End Date</button>
     </div>
-    <div class="col-sm-1">
-        <button type="button" class="btn btn-sm btn-info" (click)="sortProjectBy('priority')">Priority</button>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortProjectBy('priority')">Priority</button>
     </div>
-    <div class="col-sm-1">
-        <button type="button" class="btn btn-sm btn-info" (click)="sortProjectBy('status')">Completed</button>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortProjectBy('status')">Completed</button>
     </div>
   </div>
   <div style="margin-top: 10px;">

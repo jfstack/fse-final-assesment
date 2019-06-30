@@ -2,14 +2,14 @@
   <div class="col-sm-3"><input type="text" [(ngModel)]="searchTerm" placeholder="Search..."></div>
   
   <div class="col-sm-1">Sort:</div>
-  <div class="col-sm-1">
-    <button type="button" class="btn btn-sm btn-info" (click)="sortUsersBy('fname')">FirstName</button>
+  <div class="col-sm-2">
+    <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortUsersBy('fname')">FirstName</button>
   </div>
-  <div class="col-sm-1">
-      <button type="button" class="btn btn-sm btn-info" (click)="sortUsersBy('lname')">LastName</button>
+  <div class="col-sm-2">
+      <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortUsersBy('lname')">LastName</button>
   </div>
-  <div class="col-sm-1">
-      <button type="button" class="btn btn-sm btn-info" (click)="sortUsersBy('empid')">EmpId</button>
+  <div class="col-sm-2">
+      <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortUsersBy('empid')">EmpId</button>
   </div>
 </div>
 <div style="margin-top: 10px;">

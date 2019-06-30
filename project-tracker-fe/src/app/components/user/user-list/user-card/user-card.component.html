@@ -6,10 +6,10 @@
           <li class="list-group-item">{{user.employeeId}}</li>
         </ul>
   </div>
-  <div class="col-sm-1">
-    <div class="btn-group-vertical">
-        <button type="button" class="btn btn-sm btn-primary" (click)="editUser(user)">Edit</button>
-        <button type="button" class="btn btn-sm btn-danger" (click)="deleteUser(user)">Delete</button>
+  <div class="col-sm-2">
+    <div>
+        <button type="button" class="btn btn-sm btn-primary" style="margin-bottom: 15px; width: 100%" (click)="editUser(user)">Edit</button>
+        <button type="button" class="btn btn-sm btn-danger" style="width: 100%" (click)="deleteUser(user)">Delete</button>
     </div>
     
   </div>

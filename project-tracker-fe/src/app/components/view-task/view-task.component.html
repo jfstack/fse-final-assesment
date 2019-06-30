@@ -6,27 +6,29 @@
         <div class="panel-body">
 
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <form [formGroup]="form">
                         <input type="hidden" formControlName="projectId">
-                        Project: <input type="text" formControlName="projectName" placeholder="Search..." readonly>
-                        <button type="button" class="btn btn-sm btn-info" 
-                            (click)="openModal('all-projects-modal')">Search</button>
+                        <input type="text" formControlName="projectName" placeholder="Search project..." readonly>
                     </form>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-sm btn-info" 
+                        (click)="openModal('all-projects-modal')">Search</button>
                 </div>
                 
                 <div class="col-sm-1">Sort:</div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('startdate')">Start Date</button>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortTasksBy('startdate')">Start Date</button>
                 </div>
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('enddate')">End Date</button>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortTasksBy('enddate')">End Date</button>
                 </div>
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('priority')">Priority</button>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortTasksBy('priority')">Priority</button>
                 </div>
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-sm btn-info" (click)="sortTasksBy('status')">Completed</button>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-sm btn-info" style="width: 100%" (click)="sortTasksBy('status')">Status</button>
                 </div>
               </div>
               <div style="margin-top: 10px;">

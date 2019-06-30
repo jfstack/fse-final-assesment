@@ -21,8 +21,8 @@
             <td>{{ task.startDate }}</td>
             <td>{{ task.endDate }}</td>
             <td>{{ task.status }}</td>
-            <td><button type="button" class="btn btn-primary" (click)="editTask(task)">Edit</button></td>
-            <td><button type="button" class="btn btn-primary" (click)="endTask(task)" *ngIf="task.status === 'OPEN'">End Task</button></td>
+            <td><button type="button" class="btn btn-primary" style="width: 100%" (click)="editTask(task)">Edit</button></td>
+            <td><button type="button" class="btn btn-primary" style="width: 100%" (click)="endTask(task)" *ngIf="task.status === 'OPEN'">End Task</button></td>
           </tr>
         </tbody>
       </table>
