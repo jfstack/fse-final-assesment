@@ -17,7 +17,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
     userId: new FormControl(-1),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
-    employeeId: new FormControl('', Validators.required)
+    employeeId: new FormControl('', [Validators.required, Validators.pattern('^[1-9][0-9]*$')])
   });
 
   submitted = false;
