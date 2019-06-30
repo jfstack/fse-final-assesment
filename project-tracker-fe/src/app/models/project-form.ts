@@ -5,4 +5,5 @@ export class ProjectForm {
     endDate: string;
     priority: number;
     managerId: number;
+    status: string;
 }

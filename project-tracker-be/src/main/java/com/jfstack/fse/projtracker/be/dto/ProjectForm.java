@@ -25,6 +25,16 @@ public class ProjectForm {
 	
 	private Integer managerId;
 
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -64,7 +74,16 @@ public class ProjectForm {
 	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "ProjectForm{" +
+				"name='" + name + '\'' +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", priority=" + priority +
+				", managerId=" + managerId +
+				", status='" + status + '\'' +
+				'}';
+	}
 }

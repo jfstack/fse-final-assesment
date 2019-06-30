@@ -117,12 +117,14 @@ public class ProjectServiceTest {
     public void whenAddNewProject_thenProjectShouldBeSaved() {
 
         Project entity = Dummy.createBlankProject();
+        entity.setStatus("OPEN");
         projectService.addProject(entity);
 
         ArgumentCaptor<Project> argument = ArgumentCaptor.forClass(Project.class);
         verify( projectRepository ).save( argument.capture() );
         assertThat( entity.getProject() ).isEqualTo( argument.getValue().getProject() );
         assertThat( entity.getPriority() ).isEqualTo( argument.getValue().getPriority() );
+        assertThat( entity.getStatus() ).isEqualTo( argument.getValue().getStatus() );
 
     }
 
@@ -173,6 +175,7 @@ public class ProjectServiceTest {
     public void whenUpdateExistingProject_thenProjectShouldBeSaved() {
 
         Project existingProject = Dummy.createBlankProject();
+        existingProject.setStatus("SUSPEND");
         existingProject.setProjectId(100L);
 
         projectService.updateProject(existingProject);
@@ -182,6 +185,7 @@ public class ProjectServiceTest {
         assertThat( argument.getValue().getProject() ).isEqualTo( existingProject.getProject() );
         assertThat( argument.getValue().getProjectId() ).isEqualTo( existingProject.getProjectId() );
         assertThat( argument.getValue().getPriority() ).isEqualTo( existingProject.getPriority() );
+        assertThat( argument.getValue().getStatus() ).isEqualTo( existingProject.getStatus() );
 
     }
 }

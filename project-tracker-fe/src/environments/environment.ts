@@ -9,7 +9,7 @@ export const environment = {
 export const AppConfig = {
   apiBaseUrl_Users: 'http://localhost:8081/api/users',
   apiBaseUrl_Projects: 'http://localhost:8081/api/projects',
-  logginLevel: 'OFF'
+  logginLevel: 'DEBUG'
 }
 
 /*

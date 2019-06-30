@@ -76,6 +76,7 @@ public class ProjectTaskController {
     	project.setStartDate(projectForm.getStartDate());
     	project.setEndDate(projectForm.getEndDate());
     	project.setPriority(projectForm.getPriority());
+    	project.setStatus("OPEN");
 
     	Optional<User> found = this.userService.getUserByEmployeeId(projectForm.getManagerId());
 
@@ -103,6 +104,8 @@ public class ProjectTaskController {
     		@PathVariable("projectId") Long projectId, @RequestBody ProjectForm projectForm) {
     	logger.info("updateProject(ENTER)");
 
+    	logger.debug("Project data: ", projectForm);
+
     	Optional<Project> found = this.projectService.getProjectById(projectId);
     	if(!found.isPresent()) {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -122,6 +125,7 @@ public class ProjectTaskController {
     	project.setStartDate(projectForm.getStartDate());
     	project.setEndDate(projectForm.getEndDate());
     	project.setPriority(projectForm.getPriority());
+    	project.setStatus(projectForm.getStatus());
 
     	this.projectService.updateProject(project);
 

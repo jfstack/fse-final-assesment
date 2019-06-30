@@ -9,4 +9,5 @@ export class ProjectDetails {
     priority: number;
     manager: User;
     tasks: Array<TaskDetails>;
+    status: string;
 }

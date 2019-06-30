@@ -28,6 +28,7 @@ public class ProjectRepositoryTest {
     public void testSaveProject() {
         Project project = Dummy.createBlankProject();
         project.setProject("projectA");
+        project.setStatus("OPEN");
 
         repository.save(project);
         Optional<Project> actual = repository.findByProject("projectA");
@@ -36,6 +37,7 @@ public class ProjectRepositoryTest {
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).isInstanceOf(Project.class);
         assertThat(actual.get().getProject()).isEqualTo(project.getProject());
+        assertThat(actual.get().getStatus()).isEqualTo(project.getStatus());
 
     }
 

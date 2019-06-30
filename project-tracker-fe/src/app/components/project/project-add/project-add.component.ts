@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { startDateEndDateValidator } from '../../../validators/date.validator';
 import { ModalService } from 'src/app/services/modal.service';
 import { LogService } from '../../../services/log.service';
+import { ProjectForm } from '../../../models/project-form';
 
 @Component({
   selector: 'project-add',
@@ -72,11 +73,14 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       return;
     }
 
+    let projectForm: ProjectForm = this.form.getRawValue();
+    projectForm.status = 'OPEN';
+
     if(this.enableUpdateButton) {
       this.enableUpdateButton = false;
 
       this.updateProjectSubscription = 
-          this.projectService.updateProject(this.form.getRawValue())
+          this.projectService.updateProject(projectForm)
               .subscribe(
                   data => {
                     this.logger.debug("Data updated successfully:", data);
@@ -92,7 +96,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     } else {
 
       this.createProjectSubscription = 
-          this.projectService.createProject(this.form.getRawValue()).subscribe(
+          this.projectService.createProject(projectForm).subscribe(
 
             (data) => {
               this.logger.debug("Data saved successfully:");

@@ -36,7 +36,10 @@ public class Project {
 	
 	@Column(name = "PRIORITY")
 	private Integer priority;
-	
+
+	@Column(name = "STATUS")
+	private String status;
+
 	@OneToMany(
 			mappedBy = "project",
 			cascade = CascadeType.ALL,
@@ -115,6 +118,12 @@ public class Project {
 	public void setManager(User manager) {
 		this.manager = manager;
 	}
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

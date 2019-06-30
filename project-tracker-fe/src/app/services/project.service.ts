@@ -21,7 +21,8 @@ export class ProjectService {
     endDate: this.getDefaultStartAndEndDate()[1],
     priority: 1,
     manager: null,
-    tasks: []
+    tasks: [],
+    status: 'OPEN'
   };
 
   //This subject is used to refresh the list of projects on new project addition

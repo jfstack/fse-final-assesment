@@ -25,6 +25,14 @@
     </div>
   </div>
   <div class="col-12 col-md-2">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Status</h4>
+        <span>{{project.status}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-2" *ngIf="project.status === 'OPEN'">
     <div class="card border-0">
       <div class="card-body">
         <button type="button" class="btn btn-sm btn-primary" (click)="editProject(project)" style="margin-bottom: 1rem;">Update</button><br>
