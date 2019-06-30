@@ -19,7 +19,7 @@ export class ProjectService {
     project: '',
     startDate: this.getDefaultStartAndEndDate()[0],
     endDate: this.getDefaultStartAndEndDate()[1],
-    priority: 1,
+    priority: 0,
     manager: null,
     tasks: [],
     status: 'OPEN'

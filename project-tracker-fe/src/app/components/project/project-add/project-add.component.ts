@@ -20,7 +20,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
     name : new FormControl('', Validators.required),
     startDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[0], Validators.required),
     endDate : new FormControl(this.projectService.getDefaultStartAndEndDate()[1], Validators.required),
-    priority : new FormControl(1, Validators.required),
+    priority : new FormControl(0, Validators.required),
     managerId : new FormControl(-1),
     managerName : new FormControl('')
   }, {validators: startDateEndDateValidator});
@@ -116,7 +116,7 @@ export class ProjectAddComponent implements OnInit, OnDestroy {
       name: '',
       startDate: this.projectService.getDefaultStartAndEndDate()[0],
       endDate: this.projectService.getDefaultStartAndEndDate()[1],
-      priority: 1,
+      priority: 0,
       managerId: -1,
       managerName: ''
     });
