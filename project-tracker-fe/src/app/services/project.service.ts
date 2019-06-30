@@ -79,18 +79,20 @@ export class ProjectService {
   getDefaultStartAndEndDate(): Array<string> {
     let d = new Date();
     let day = d.getDate();
+    let dayStr = day < 10 ? '0'+day : ''+day;
     let month = d.getMonth()+1;
     let monthStr = month < 10 ? '0'+month : ''+month;
     let year = d.getFullYear();
-    let today = year + '-' + monthStr + '-' + day;
+    let today = year + '-' + monthStr + '-' + dayStr;
 
     d.setDate(d.getDate() + 1);
     day = d.getDate();
+    dayStr = day < 10 ? '0'+day : ''+day;
     month = d.getMonth() +1;
     monthStr = month < 10 ? '0'+month : ''+month;
     year = d.getFullYear();
 
-    let tomorrow = year + '-' + monthStr + '-' + day;
+    let tomorrow = year + '-' + monthStr + '-' + dayStr;
 
     return [today, tomorrow];
 
